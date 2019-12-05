@@ -12,17 +12,25 @@
 <body>
   <script type="text/javascript">
     // script here
+    var nonNegativeParse = function(d) {
+      valToReturn = parseFloat(d);
+      if (valToReturn < 0) {
+        return 0;
+      } else {
+        return valToReturn;
+      };
+    }
+
     var rowConverter = function(d) {
       return {
           Qubit: d.Qubit,
-          Value: parseFloat(d.Value),
+          Value: nonNegativeParse(d.Value),
           RGB1: parseFloat(d.RGB1),
           RGB2: parseFloat(d.RGB2),
           RGB3: parseFloat(d.RGB3),
           Active: parseInt(d.Active)
       };
     }
-
     // used to track state of display.
     var FMState = 0;
 

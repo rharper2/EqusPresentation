@@ -12,10 +12,19 @@
 <body>
   <script type="text/javascript">
     // script here
+    var nonNegativeParse = function(d) {
+      valToReturn = parseFloat(d);
+      if (valToReturn < 0) {
+        return 0;
+      } else {
+        return valToReturn;
+      };
+    }
+
     var rowConverter = function(d) {
       return {
           Qubit: d.Qubit,
-          Value: parseFloat(d.Value),
+          Value: nonNegativeParse(d.Value),
           RGB1: parseFloat(d.RGB1),
           RGB2: parseFloat(d.RGB2),
           RGB3: parseFloat(d.RGB3),
@@ -127,16 +136,6 @@
 
     timings = [239,179,261,266,300,300,348,348,300,261,217,300,652,1043,286,261,348,348]
 
-    var rowConverter = function(d) {
-      return {
-          Qubit: d.Qubit,
-          Value: parseFloat(d.Value),
-          RGB1: parseFloat(d.RGB1),
-          RGB2: parseFloat(d.RGB2),
-          RGB3: parseFloat(d.RGB3),
-          Active: parseInt(d.Active)
-      };
-    }
 
     var FMState = 0;
 

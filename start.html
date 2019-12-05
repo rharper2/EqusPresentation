@@ -1,0 +1,797 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Playing with D3.js</title>
+  <script src="js/d3.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  
+</head>
+<body>
+
+  <script type="text/javascript">
+    // script here
+    var rowConverter = function(d) {
+      return {
+          Qubit: d.Qubit,
+          Value: parseFloat(d.Value),
+          RGB1: parseFloat(d.RGB1),
+          RGB2: parseFloat(d.RGB2),
+          RGB3: parseFloat(d.RGB3),
+          Active: parseInt(d.Active)
+      };
+    }
+
+    // used to track state of display.
+    var FMState = 0;
+
+    var _transitions = [
+    {
+      transitionForward: () => transition(0),
+      index: 0
+    },
+    {
+      transitionForward: () => transition(1),
+      index: 1
+    },
+    {
+      transitionForward: () => transition(2),
+      index: 2
+    },
+    {
+      transitionForward: () => transition(3),
+      index: 3
+    },
+    {
+      transitionForward: () => transition(4),
+      index: 4
+    },
+    {
+      transitionForward: () => transition(5),
+      index: 5
+    },
+    {
+      transitionForward: () => transition(6),
+      transitionBackward: () => transition(5),
+      index: 6
+    },
+    {
+      transitionForward: () => transition(7),
+      transitionBackward: () => transition(6),
+      index: 7
+    }
+    ]
+
+    var GroupsOfData = 5; // This will be determined by csv file.
+
+    //  Some standard constants
+    var numberOfQubits = 14;
+    
+    // used to iterate over the qubits
+    var qubits = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+    var commentry = ["Conditional Mutual Information between qubits","Enforcing nearest neighbour ansatz","Non-nearest neighbour correlations"]
+    // dataset being used
+    var dataset;
+    // full dataset read in.
+    var FullDataset;
+    
+    var dataToDisplay = 0;
+    
+    // UI scales etc.
+    var toDelay = 50;
+    var w = 1200;
+    var h = 300;
+    var barPadding = 10;
+    var plotPadding = 15;
+    var xPadding = 30;
+    var scale = d3.scaleLinear();
+    var xscales = []
+    for (let i=0;i<14;i++) {
+      xscales.push(d3.scaleBand());
+    }
+    var yAxis =  d3.axisLeft().scale(scale).ticks(5);
+    var graphDist =400;
+    
+
+    var barsMain;
+    var leaveAlone = "q1"
+    
+    scale.domain([0,0.004]);
+    scale.range([h-2*plotPadding,plotPadding]);
+
+    var ellipseScale = d3.scaleLinear();
+    ellipseScale.domain([0,7]);
+    ellipseScale.range([100,w-100]);
+
+// ******************
+// MOVEALONG
+// ******************
+
+    var movealong = function(q,scaleToUse,del) {
+      scale.domain([0,0.004])
+      
+      d3.select(".yaxis").call(yAxis);
+      
+      d3.selectAll("rect."+q).data(dataset).transition().duration(1000).delay(function(d,i) {return (i*del)})
+      .attr("y",function(d) {
+        var offset = 0;
+        if (parseInt(q.slice(1)) > 6){
+          offset=h
+        } 
+        return offset+scale(d.Value);
+      })
+      .attr("height",function(d) {
+        return h - scale(d.Value)-2*plotPadding;
+      }).attr("x", function(d,i) {
+            if (parseInt(q.slice(1)) > 6) {
+              return scaleToUse(i)-xscales[5](13);
+            }
+            return scaleToUse(i)
+      }).attr("width", function(d,i) {
+            return scaleToUse.bandwidth()
+          })
+      .attr("fill",function(d) {
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          });
+
+      d3.selectAll("text."+q)
+          .data(dataset).transition().duration(1000).delay(function(d,i) {return (i*del)})
+          .text(function(d) { 
+            if (scaleToUse.bandwidth() < 10) {
+              return "";
+            } else {
+              return d.Qubit;
+            }
+          })
+          .attr("x",function(d,i) {
+
+            return scaleToUse(i) + scaleToUse.bandwidth()/2;
+          })
+          .attr("y",function(d) {
+            return (scale(d.Value)) + 15;
+          })
+
+          .attr("text-anchor","middle");
+
+
+      let doneOne = false;
+
+      // *** WATCH OUT THE LOGIC HERE IS THAT THE PAIRS ARE ENCODED WITH THE HIGHER QUBIT BEING 0
+     if (q != leaveAlone) {
+       d3.select("text.mainQ."+q).style("fill","black")
+     }
+     var bq1,bq2;
+     for (let i = 0;i<numberOfQubits;i++){
+        if (dataset[i].Active == 1) {
+          console.log(i+","+q)
+          bq1 = d3.select("text.mainQ."+q).style("fill","blue")
+          bq2 = d3.select("text.mainQ.q"+i).style("fill","blue")
+          leaveAlone = "q"+i
+          doneOne = true
+        }
+      }
+
+      if (doneOne && scaleToUse.bandwidth() < 10 && dataToDisplay > 0) {
+        bq1.transition().duration(400).style("font-size","28px").transition().duration(400).style("font-size","24px")
+        bq2.transition().duration(400).style("font-size","28px").transition().duration(400).style("font-size","24px")
+      }
+
+
+        /*
+      d3.selectAll("text.mainQ").data(dataset).style("fill",function(d,i) {
+          
+          if (d.Active == 1) {
+            console.log(q + ": " + d.Active);
+            doneOne = true;
+            return "red"
+
+          }
+          //return "red"
+        })*/
+      /*if (doneOne) {
+        svg.selectAll("text.mainQ."+q).style("fill","blue")
+      } else {
+        svg.selectAll("text.mainQ."+q).style("fill","black")
+      }*/
+      
+
+
+      
+    };
+
+    var shrunkPart = 150;
+    var shrunkGap = 50;
+    var initialSequence = 6;
+    var compressed = 0;
+
+
+function barUp() {
+  console.log("UP")
+  for (let i=0;i<numberOfQubits;i++) {
+          plotBars(dataset,xscales[i],"q"+(i))
+  }
+
+      
+}  
+
+
+// *********** CLICK ***********************
+     document.addEventListener('click',function() {
+      console.log("click")
+      transition(FMState)
+      })//   var toDelay = 50;
+      
+// ************* FIRST 
+function transition(state) {      
+     if (FMState == 0) {
+        svg.selectAll("text.TLQ").remove()
+        d3.selectAll("g.TODEL").remove()
+        d3.selectAll("rect.TODEL").transition().duration(1000).style("opacity",0)
+     
+        d3.selectAll("ellipse.ULQ").transition().duration(1000)
+        .attr("cx",function(d) {if (d > 2) { return 2000} else {return xscales[d](4)-4}})
+        .attr("cy",h-60)
+        .attr("rx","120")
+        .attr("ry","120")
+        
+     
+        d3.selectAll("ellipse.LQ").transition().duration(1000)
+        .attr("cx",function(d) { if (d > 2) { return 2000} else {return xscales[d](4)-4}})
+        .attr("cy",h-60)
+        .attr("rx","120")
+        .attr("ry","120")
+      
+        FMState +=1
+        barUp()
+        d3.selectAll("text.mainQ").data(qubits).transition().duration(1000)
+        .attr("x",function (d) { return xscales[d](2)})
+        .attr("y",function(d) {
+              if (d > 6) {
+                return 2*h;
+              } else {
+                return h+100
+              }})
+        .style("fill","black")
+        .style("font-size","26px")
+        .attr("text-anchor","left")
+        .style("opacity",1);
+ 
+      }
+// ************* SECOND, tilt and add qubits.
+      else if (FMState == 1) { // Tilt the qubits
+        //barsMain.transition().duration(2000).delay(1000).style("opacity",1)
+
+       
+        svg.selectAll("ellipse.ULQ").transition().duration(1000)
+          .attr("ry","80")
+          .attr("cy",h-50)
+      
+          svg.selectAll("ellipse.LQ").transition().duration(1000)
+          .attr("ry","80")
+
+          svg.selectAll("ellipse.smallQ").transition().duration(1000)
+          .attr("ry","5")
+
+          svg.selectAll("#radial-gradient").transition().duration(1000).attr("cy","30%")
+          FMState +=1
+      }
+// ************* Third Plot some.
+       else if (FMState == 2) {
+         d3.selectAll("#textCommentry").text(commentry[0])
+     
+         var stagger = 150;
+
+        //for (let i=0;i<numberToDo;i++) {
+        //   dataset = FullDataset.slice(14*(5*i),14*(5*i+1));
+        //   plotBars(dataset,xscales[i],"q"+(i))
+        //}
+          dataToDisplay = 0
+        
+          for (let q=0;q<3;q++) {
+           dataset = FullDataset.slice(dataToDisplay*numberOfQubits+numberOfQubits*(q*GroupsOfData),
+                                    dataToDisplay*numberOfQubits+numberOfQubits*(q*GroupsOfData+1));
+           
+           svg.selectAll("rect.Q"+q).data(dataset).transition().duration(1000).delay(function(d,i) {return (i*stagger)})
+              .attr("y",function(d,i) {
+                 if (i<7) {
+                  return scale(d.Value)-60;
+                } else {
+                  return scale(d.Value);
+                }
+            })
+            .attr("height",function(d,i) {
+              if (i<7) {
+                return h - scale(d.Value)-2*plotPadding;
+              } else {
+                return h - scale(d.Value)-2*plotPadding;
+              }
+            
+            })
+
+            svg.selectAll("ellipse.q"+q).data(dataset).transition().duration(1000).delay(function(d,i) {return (i*stagger)})
+              .attr("cy",function(d,i) {
+                 if (i<7) {
+                  return scale(d.Value)-60;
+                } else {
+                  return scale(d.Value)+0;
+                }
+              })
+
+
+            svg.selectAll("text.q"+q)
+                .data(dataset).transition().duration(1000).delay(function(d,i) {return (i*stagger)})
+                .attr("y",function(d,i) {
+                    if (i<7) {
+                        return (scale(d.Value)) + -45;
+                    } else {
+                      return (scale(d.Value)) + 15;
+
+                    }
+                })
+          .attr("text-anchor","middle");
+
+           
+      
+        }
+
+        FMState +=1
+
+// ************ Fourth.
+
+
+      } else if (FMState == 3) {
+        svg.selectAll("ellipse").attr("opacity","1");
+        svg.selectAll("ellipse").transition().duration(2000).attr("opacity","0").remove();
+        svg.selectAll("text.mainQ")
+                .data(qubits).transition().duration(2000)
+                .attr("y",function(d,i) {
+                  if (i>6) {return 2*h+15}
+                  else { return h+15 }
+                })
+        FMState+=1
+
+// ************ Fifth
+      } else {
+      console.log("Should compress?")
+      if (compressed == 0 && dataToDisplay >= 1) {
+        toDelay=0;
+        dataToDisplay=0;
+        compressed = 1;
+        for (let j=0;j<numberOfQubits;j++) {
+          let i = j;
+          if (j > 6) {
+            i = 20 - j;
+          }
+          xscales[i].domain(d3.range(dataset.length))
+            .range([shrunkPart*j+shrunkGap,shrunkPart*(j+1)])
+            .round(true)
+            .paddingInner(0.05);
+          }
+          initialSequence=numberOfQubits;
+        
+        svg.selectAll("text.mainQ")
+                .data(qubits).transition().duration(1000)
+                .attr("x",function(d,i) {
+                  if (i > 6) {
+                      return xscales[i](0)-xscales[5](13);
+                  } else {
+                  return xscales[i](0)
+                  }})
+      }
+      if (dataToDisplay > GroupsOfData-1) {
+        dataToDisplay = 0;
+      }
+      for (let i=0;i<initialSequence;i++) {
+        dataset = FullDataset.slice(dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData),
+                                    dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData+1));
+        //console.log("Q"+i+(dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData))+":"+(dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData+1)));
+        movealong("q"+(i),xscales[i],toDelay);
+
+      }
+      d3.selectAll("#textCommentry").text(commentry[dataToDisplay])
+      dataToDisplay += 1;
+      return true;
+    }
+    }
+
+// *******************************************
+    var plotBars = function(dataset,scaleToUse,qbit) {
+      mx = d3.max(dataset,function(d) {
+        return d.Value;
+      })
+      //console.log(mx);
+      //console.log(dataset)
+        
+      let barBranch = svg.append("g")
+                         .attr("class","barandtext")
+                         .classed(qbit,true)
+
+      barsMain = barBranch.selectAll("g."+qbit)
+          .data(dataset)
+          .enter()
+          .append("g")
+          .attr("class",function(d) { return "QB"+qbit})
+          .style("opacity",0)
+
+      
+        d3.selectAll("g.QB"+qbit)
+          .append("ellipse")
+          .attr("class",qbit)
+          .classed("smallQ",true)
+          .attr("cx", function(d,i) {
+            if (i>=7) {
+              return scaleToUse(14-i)+scaleToUse.bandwidth()/2
+            } else {
+              return scaleToUse.bandwidth()*1.5+scaleToUse(i)-25;
+            }
+          })
+          .attr("cy",function(d,i) {
+            if (i<7) {
+              return h-2*plotPadding-64;
+            } else {
+              return h-2*plotPadding-4;
+            }
+          })
+          .attr("rx",function(d,i) {
+            return Math.sqrt(scaleToUse.bandwidth()*5);
+          })
+          .attr("ry",function(d,i) {
+            return Math.sqrt(scaleToUse.bandwidth()*5);
+          })
+          .attr("stroke-width",1)
+          .attr("stroke","rgb(0,0,0)")
+          .attr("fill",function(d,i) {
+            if (parseInt(qbit.slice(1)) == i) {
+              return "rgb(255,255,255)";
+            }
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          })
+
+
+      d3.selectAll("g.QB"+qbit)
+          .append("rect")
+          .attr("class", function(d) {return "Target"+d.Qubit})
+          .classed(qbit,true)
+          .attr("x", function(d,i) {
+            if (i>=7) {
+              return scaleToUse(14-i)
+            } else {
+              return scaleToUse.bandwidth()+scaleToUse(i)-25;
+            }
+          })
+          .attr("y",function(d,i) {
+            if (i<7) {
+              //return h - scale(d.Value)-2*plotPadding;
+              return h-89;
+            } else {
+              //return h - scale(d.Value)-2*plotPadding;
+              return h-31;
+            }
+          })
+          .attr("width",function(d,i) {
+            return scaleToUse.bandwidth();
+          })
+          .attr("height",function(d,i) {
+            if (i<7) {
+              return 0;
+            } else {
+              return 0;
+            }
+            
+          })
+          .attr("stroke-width",1)
+          .attr("stroke","rgb(0,0,0)")
+          .attr("fill",function(d) {
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          })
+          .on('mouseover',(d) => {
+              console.log(qbit + " and " + d.Qubit)
+              console.log("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1))
+              d3.select("rect.TARGETQ"+d.Qubit.slice(1)+".q"+qbit.slice(1)).style("fill","blue")
+              d3.select("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1)).style("fill","blue").transition().delay(10).attr("width",2*scaleToUse.bandwidth()).style("fill","yellow").transition().delay(10).style("fill","blue").attr("width",scaleToUse.bandwidth())
+
+            })
+          .on('mouseout',(d) => {
+              console.log(qbit + " and " + d.Qubit)
+              console.log("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1))
+              d3.select("rect.TARGETQ"+d.Qubit.slice(1)+".q"+qbit.slice(1)).interrupt().attr("width",scaleToUse.bandwidth()).style("fill",function(d) {
+                      return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+                })
+              d3.select("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1)).attr("width",scaleToUse.bandwidth()).interrupt()
+                .style("fill",function(d) {
+                      return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+                })
+          })
+
+       d3.selectAll("g.QB"+qbit)
+          .data(dataset)
+          .append("text")
+          .attr("class",qbit)
+          .text(function(d,i) { 
+            if (d.Value != 0) {
+              return d.Qubit;
+            }else { return ""}
+          })
+          .attr("x",function(d,i) {
+           if (i>=7) {
+              return scaleToUse(14-i)+scaleToUse.bandwidth()/2
+            } else {
+              return scaleToUse.bandwidth()+scaleToUse(i)-25+scaleToUse.bandwidth()/2;
+            }
+          })
+          .attr("y",function(d,i) {
+            if (i<7) return h-90;
+            return h-30;
+            //if (i<7) {
+            //  return (scale(d.Value)) + -45;
+            //} else {
+            //  return (scale(d.Value)) + 15;
+//
+            //}
+          })
+          .attr("text-anchor","middle");
+
+      barBranch.append("text")
+        .attr("class","mainQ")
+        .classed(qbit,true)
+        .text("Qubit: " + qbit.slice(1))
+        .attr("x",function(d) { 
+            if (parseInt(qbit.slice(1)) < 7) {
+              return ellipseScale(qbit.slice(1))-35}
+            return ellipseScale(14-qbit.slice(1))-35})
+        .attr("y",function(d) {
+          if (qbit.slice(1)< 7) {
+            return h-175 }
+          else {
+            return 2*h-175 }
+          })
+        .style("fill","white")
+        .style("font-size","20px")
+        .style("opacity",0.4)
+
+
+
+        
+
+
+        
+      barsMain.transition().duration(2000).delay(1000).style("opacity",1)
+
+       
+       
+    }
+
+    var plotCircle = function(dataset,scaleToUse,qbit) {
+        
+      var ellipseBranch = svg.append("g")
+                         .attr("class","smallellipseMaster"+qbit)
+
+
+      var circs = ellipseBranch.selectAll("elipse."+qbit)
+          .data(dataset)
+          .enter()
+          .append("ellipse")
+          .attr("class",qbit)
+          .classed("smallQ",true)
+          .attr("cx", function(d,i) {
+            if (i>=7) {
+              return scaleToUse(14-i)+scaleToUse.bandwidth()/2
+            } else {
+              return scaleToUse.bandwidth()*1.5+scaleToUse(i)-25;
+            }
+          })
+          .attr("cy",function(d,i) {
+            if (i<7) {
+              return h-2*plotPadding-64;
+            } else {
+              return h-2*plotPadding-4;
+            }
+          })
+          .attr("rx",function(d,i) {
+            return Math.sqrt(scaleToUse.bandwidth()*5);
+          })
+          .attr("ry",function(d,i) {
+            return Math.sqrt(scaleToUse.bandwidth()*5);
+          })
+          .attr("stroke-width",1)
+          .attr("stroke","rgb(0,0,0)")
+          .attr("fill",function(d,i) {
+            if (parseInt(qbit.slice(1)) == i) {
+              return "rgb(255,255,255)";
+            }
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          });
+
+    }
+
+
+   var plotQubit = function(qbit) {
+    ellipseBranch.append("rect")
+      .attr("class","TODEL")
+      .style("fill","grey")
+      .attr("x",25)
+      .attr("y",25)
+      .attr("rx",45)
+      .attr("width",w-50)
+      .attr("height",2*h-30)
+      .style("opacity",.8)
+
+    ellipseBranch.append("rect")
+      .attr("class","TODEL")
+      .style("fill","honeydew")
+      .attr("x",20)
+      .attr("y",20)
+      .attr("rx",45)
+      .attr("width",w-50)
+      .attr("height",2*h-30)
+
+   
+
+    var EBG = ellipseBranch.selectAll("g")
+         .data(qubits)
+        .enter()
+        .append("g")
+        .attr("class","EBG")
+        .classed("TODEL",function(d) {if (d>2) return true})
+
+   
+      var EBG = ellipseBranch.selectAll("g")
+         .data(qubits)
+        .enter()
+        .append("g")
+        .attr("class","EBG")
+        .classed("TODEL",function(d) {if (d>2) return true})
+
+
+        
+      ellipseBranch.selectAll("g.EBG")
+        .append("ellipse")
+        .attr("class","ULQ")
+        .attr("cx",function(d) { 
+            if (d < 7) {
+              return ellipseScale(d)}
+            return ellipseScale(14-d)})
+        .attr("cy",function(d) {
+          if (d< 7) {
+            return h-180 }
+          else {
+            return 2*h-180 }
+          })
+        .attr("rx","50")
+        .attr("ry","50")
+        .attr("fill","rgb(80,80,80")
+      
+      ellipseBranch.selectAll("g.EBG")
+        .append("ellipse")
+        .attr("class","LQ")
+        .attr("cx",function(d) { 
+            if (d < 7) {
+              return ellipseScale(d)}
+            return ellipseScale(14-d)})
+        .attr("cy",function(d) {
+          if (d< 7) {
+            return h-180 }
+          else {
+            return 2*h-180 }
+          })
+        .attr("rx","50")
+        .attr("ry","50")
+        .style("fill","url(#radial-gradient)")
+      
+
+      ellipseBranch.selectAll("g.EBG")
+        .append("text")
+        .attr("class","TLQ")
+        .attr("x",function(d) { 
+            if (d < 7) {
+              return ellipseScale(d)}
+            return ellipseScale(14-d)})
+        .attr("y",function(d) {
+          if (d< 7) {
+            return h-175 }
+          else {
+            return 2*h-175 }
+          })
+        .text(function (d) {return "Qubit "+d})
+        .style("fill","white")
+        .style("font-size","20px")
+        .attr("text-anchor","middle");
+
+
+    } 
+
+
+    var svg = d3.select("body")
+                .append("svg")
+                .attr("width",w+40)
+                .attr("height",2*h+50);
+    svg.append("rect")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("fill", "honeydew")
+      .attr("rx",10);
+
+    svg.append("text").text("").attr("x",w-600).attr("y",40).style("font-size","28px").attr("id","textCommentry").style("fill","black")
+    
+    var radialGradient = svg.append("defs")
+          .append("radialGradient")
+          .attr("id", "radial-gradient");
+
+    radialGradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "darkgrey");
+
+    radialGradient.append("stop")
+      .attr("offset", "200%")
+      .attr("stop-color", "rgb(30,30,80)");
+
+    radialGradient.attr("cx","70%").attr("cy","20%")
+
+    var ellipseBranch
+
+    d3.csv("for3dSingle.csv", function(d) {
+      return rowConverter(d);
+    }).then(function(data) {
+        FullDataset  = data;
+        GroupsOfData = FullDataset.length / (14*14)
+        console.log("There are : " + (GroupsOfData) + " groups of data")
+        //console.log(FullDataset);
+        dataset = data.slice(0,14);
+        dataToDisplay = 1;
+        //console.log(dataset);
+       ellipseBranch = svg.append("g")
+                         .attr("class","largeEllipseMaster")
+
+        for (let i=0;i<numberOfQubits;i++) {
+          xscales[i].domain(d3.range(14))
+            .range([xPadding+graphDist*i+plotPadding,xPadding+(i+1)*graphDist-plotPadding*2])
+            .round(true)
+            .paddingInner(0.3);
+        }
+        plotQubit(0)
+        //plotQubit(1)
+        //plotQubit(2)
+        
+        /*
+        for (let i=0;i<numberOfQubits;i++) {
+          dataset = data.slice(numberOfQubits*(GroupsOfData*i),numberOfQubits*(GroupsOfData*i+1));
+
+          
+        //plotBars(dataset,xscales[i],"q"+(i))
+        //plotCircle(dataset,xscales[i],"q"+(i))
+        plotBars(dataset,xscales[i],"q"+(i))
+      
+        }
+        */
+        svg.append("g")
+        .attr("class","yaxis")
+        .attr("transform","translate(" + 45 + ",0)")
+        .attr("fill","black")
+
+        labels = svg.append("g")
+
+        //.call(yAxis);
+
+        
+          
+    });
+
+   // var imgs = svg.selectAll("image").data([0]).enter()
+   //             .append("svg:image")
+   //             .attr("xlink:href","images/Q0.png")
+   //             .attr("x","-50")
+   //             .attr("y",0)
+   //             .attr("width","700")
+   //             .attr("height","700");
+
+
+
+
+    
+
+  </script>
+
+</body>
+</html> 

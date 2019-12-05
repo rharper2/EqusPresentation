@@ -1,0 +1,901 @@
+<title>Learning Noise</title>
+
+<!doctype html>
+
+
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Markdown in impress.js | by Henrik Ingo @henrikingo</title>
+
+<meta name="description" content="Learning Noise" />
+<meta name="author" content="Robin" />
+
+
+<!--
+    Styles specific for this example presentation.
+-->
+<link href="css/markdown-slides.css" rel="stylesheet" />
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+extensions: ["tex2jax.js"],
+jax: ["input/TeX", "output/HTML-CSS"],
+tex2jax: {
+  inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+  displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+  processEscapes: true
+},
+"HTML-CSS": { fonts: ["TeX"] }
+});
+</script>
+<script type="text/javascript" src="javascripts/MathJax/MathJax.js"></script>
+<script type="text/javascript" src="javascripts/jqueryv3.4.1.js"></script>
+
+</head>
+
+<body class="impress-not-supported">
+<div class="fallback-message">
+<p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+<p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div id="impress"  data-transition-duration="1000">
+
+
+<div class="step slide markdown intro" data-rel-x="1000" data-rel-y="150">
+## Learning noise?
+
+Two important reasons:
+
+-  Diagnostic Purposes
+-  To allow us tailor methods to counteract it.
+
+-----
+## Learning noise?
+
+### Error Correction - tailored decoders
+
+![Aliferis and Preskil](images/FTQB.png)
+
+![Tucket Bartlett Flammia](images/UETCS.png)
+</div>
+
+<div class="step slide intro2" data-rel-x="1200" data-rel-y="200" data-rel-z="-200">
+    <h1>Learning Noise</h1>
+    <img id="bar" src="images/Bar.png"
+         style="position: absolute; left: 400px; top: 200px; z-index: 3; width: 60px;" />
+    <img id="bar2" src="images/Bar.png"
+         style="position: absolute; left: 400px; top: 200px; z-index: 4; width: 60px;" />
+    <img id="bar3" src="images/Bar.png"
+         style="position: absolute; left: 400px; top: 200px; z-index: 2; width: 60px;" />
+   <p id="detail" style="position: absolute; left: 50px; top: 200px; z-index: -1;">More Detail</p>
+    <p id="scale" style="position: absolute; left: 50px; top: 500px; z-index: -1;">More Scalable</p>
+    <p id="effort" class="repositionable" style="position: absolute; left: 50px; top: 500px; z-index: -1; font-size:24px; ">Classical Effort</p>
+    <div class="substep" >
+        <ul style="position: absolute; left: 500px; top: 200px; z-index: -1; font-size: 30px;transform-style: preserve-3d;">
+            <li id="pt" class="repositionable" >Process tomography</li>
+            <li id="gst" class="repositionable" >GST</li>
+            <li id="cs"  class="repositionable">Compressed Sensing</li>
+            <li id="trb" class="repositionable">Tomography with RB</li>
+            <li id="rb" class="repositionable">Randomized Benchmarking</li>
+            <li id="cb" class="repositionable">Cycle Bencmarking</li>
+            <li id="xb" class="repositionable">Character Bencmarking</li>
+            <li id="drb" class="repositionable">Direct RB</li>
+        </ul>
+    </div>
+    <div id="moveDetail" class="substep"></div>
+    <div class = "substep" style="perspective:300px;">
+        <li id="overlap" >Overlapping tomography</li>
+        <li id="learn" >Efficient learning of quantum noise</li>
+            <p style="background:slategrey;font-size:14px;position:absolute;left:600px;top:450px;z-index:-1;">Harper, Flammia and Wallman ArXiv: 1907.13022</p>
+            <p style="background:slategray;font-size:14px;position:absolute;left:600px;top:490px;z-index:-1;">Cotler and Wilczek  ArXiv: 1908.02754</p>
+        </ul>
+    </div>
+    <div id="zoomlearn" class = "substep">
+        </div>
+    
+</div>
+
+<div class="step slide markdown intro" data-rel-x="-1000" data-rel-y="800">
+## Learning noise?
+    
+
+
+Relevant, concise descriptions.
+    
+</div> 
+
+<div class="step slide intro" data-rel-x="-1000" data-rel-y="800" data-rel-z="-100">
+
+<h2>Learning noise?</h2>
+
+<p style="padding-top: 100px; padding-left: 200px">$\mathcal{E}(\rho)=\sum\limits_k\left( p_{k}P_k\rho P_k \right)$
+</p>
+<hr/>
+<p style = "font-size: 24">$p_k$ Pauli error rates - channel of $4^n$ elements in general.
+</p>
+</div>
+
+
+<div id="projection" class="step slide intro" data-rel-x="-1000" data-rel-y="-800" data-rel-z="-100" style="perspective: 200px;">
+
+<h2>Learning noise?</h2>
+<h3 style="position: absolute; left: 600px; top:170px;font-size:36;">Enforcing the projection</h3>
+<img style="width:600px; ; position: absolute; left: 600px; top:250px;" src="images/ware.png"/>
+<img id="ware1" class="flickering" style="width:600px; position: absolute; left: -100px; top:180px;" src="images/ware1.png"/>
+<img id="ware2" class="flickering" style="width:600px; position: absolute; left: -100px; top:330px;" src="images/ware2.png"/>
+<img id="ware3" class="flickering" style="width:600px; position: absolute; left: -100px; top:480px;" src="images/ware3.png"/>
+<img id="ware4" class="flickering" style="width:600px; position: absolute; left: -100px; top:630px;" src="images/ware4.png"/>
+
+</div>
+
+<div id="background1" class="step skip back" data-x="1800" data-y="800" data-z="-1000" data-scale="6">
+    <img src="images/extra_.jpg"
+         style="position: absolute; left: 0px; top: 0px; z-index: -1; width: 1200px;" />
+</div>
+
+<div id="background4" class="step skip back" data-x="-4500" data-y="1000" data-z="-3000" data-scale="6">
+        <img src="images/resize"
+             style="position: absolute; left: -100px; top: -100px; z-index: -1; width: 1200px;" />
+    </div>
+    <div id="background4" class="step skip back" data-x="-2500" data-y="-3000" data-z="-10000" data-scale="10">
+            <img src="images/IBM.jpg"
+                 style="position: absolute; left: -100px; top: -100px; z-index: -1; width: 1200px;" />
+        </div>
+    
+
+<div id="testTransition" class="step slide noise" data-x="-5000" data-y=-5000 style= "border: red;">
+<p><table class="noiseTable" >
+    <tr>
+        <th></th><th>II</th><th>IX</th><th>IY</th><th>IZ</th><th>XI</th><th>XX</th><th>XY</th><th>XZ</th><th>YI</th><th>YX</th><th>YY</th><th>YZ</th><th>ZI</th><th>ZX</th><th>ZY</th><th>ZZ</th>
+    </tr><tr>
+        <td>II</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+    </tr>
+    <tr>
+        <td >IX</td><td class="np uni tlr rr">$\eta_1$</td><td class="fvalue ofv fvalue1">$f_1$</td><td class="np coh tlr">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh rr">$\delta$</td>
+    </tr>
+    <tr>
+        <td>IY</td><td class="np uni ">$\eta_2$</td><td class="np coh tlr">$\delta$</td><td class="fvalue ofv fvalue2">$f_2$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>IZ</td><td class="np uni ">$\eta_3$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue3">$f_3$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>XI</td><td class="np uni ">$\eta_4$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue4">$f_4$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>XX</td><td class="np uni ">$\eta_5$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue5">$f_5$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>XY</td><td class="np uni ">$\eta_6$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue6">$f_6$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>XZ</td><td class="np uni ">$\eta_7$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue7">$f_7$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>YI</td><td class="np uni ">$\eta_8$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue8">$f_8$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>YX</td><td class="np uni ">$\eta_9$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue9">$f_9$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>YY</td><td class="np uni ">$\eta_{10}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue10">$f_{10}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>YZ</td><td class="np uni ">$\eta_{11}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue11">$f_{11}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>ZI</td><td class="np uni ">$\eta_{12}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue12">$f_{12}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>ZX</td><td class="np uni ">$\eta_{13}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue13">$f_{13}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td>
+    </tr>
+    <tr>
+        <td>ZY</td><td class="np uni ">$\eta_{14}$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="fvalue ofv fvalue14">$f_{14}$</td><td class="np coh brr">$\delta$</td>
+    </tr>
+    <tr>
+        <td>ZZ</td><td class="np uni brr blr ">$\eta_{15}$</td><td class="np coh blr">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh">$\delta$</td><td class="np coh brr">$\delta$</td><td class="fvalue ofv fvalue15">$f_{15}$</td>
+    </tr>
+</table></p>
+<div id="cnoise" class="substep">
+    <p id="coherentLabel">Coherent noise</p>
+</div>
+<div id="unital" class="substep">
+    <p id="unitalLabel">Non-unital (amplitude damping) noise</p>
+</div>
+<div id="tp" class="substep"><p id="tpLabel">Trace preserving</p></div>
+<div id="waggleDelta" class="substep"></div>
+<div id="pauliNoise" class="substep"><p id="pLabel"></p></div>
+<div id="nextSlideSoon" class="substep">
+
+</div>
+</div>
+<div  id="pauliNoiseSlide" class="step slide noise" data-rel-x="4000" data-rel-y=0 style= "border: red;">
+ <div class="pauliNoiseGrid">
+    <div id = "mainPNG">
+        <svg id="pTableSVG" version="1.1" baseProfile="full" width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+        </svg>
+        <p>
+        <table class="pauliTable">
+            <!--<tr>
+                <th></th><th>  </th>
+            </tr>-->
+            <tr>
+                <td>II</td><td class="fvalue fvalue0">1</td>
+            </tr>
+            <tr>
+                <td >IX</td><td id="f1" class="fvalue fg1 fvalue1">$f_1$</td>
+            </tr>
+            <tr>
+                <td>IY</td><td id="f2" class="fvalue fg1 fvalue2">$f_2$</td>
+            </tr>
+            <tr>
+                <td>IZ</td><td id="f3" class="fvalue fg1 fvalue3">$f_3$</td>
+            </tr>
+            <tr>
+                <td>XI</td><td id="f4" class="fvalue fg2 fvalue4">$f_4$</td>
+            </tr>
+            <tr>
+                <td>XX</td><td id="f5" class="fvalue fvalue5 fg3">$f_5$</td>
+            </tr>
+            <tr>
+                <td>XY</td><td id="f6" class="fvalue fvalue6 fg3">$f_6$</td>
+            </tr>
+            <tr>
+                <td>XZ</td><td id="f7" class="fvalue fvalue7 fg3 ">$f_7$</td>
+            </tr>
+            <tr>
+                <td>YI</td><td id="f8" class="fvalue fg2 fvalue8">$f_8$</td>
+            </tr>
+            <tr>
+                <td>YX</td><td id="f9" class="fvalue fvalue9 fg3">$f_9$</td>
+            </tr>
+            <tr>
+                <td>YY</td><td id="f10" class="fvalue  fvalue10 fg3">$f_{10}$</td>
+            </tr>
+            <tr>
+                <td>YZ</td><td id="f11" class="fvalue fvalue11 fg3">$f_{11}$</td>
+            </tr>
+            <tr>
+                <td>ZI</td><td id="f12" class="fvalue fg2 fvalue12">$f_{12}$</td>
+            </tr>
+            <tr>
+                <td>ZX</td><td id="f13" class="fvalue fvalue13 fg3">$f_{13}$</td>
+            </tr>
+            <tr>
+                <td>ZY</td><td id="f14" class="fvalue fvalue14 fg3">$f_{14}$</td>
+            </tr>
+            <tr>
+                <td>ZZ</td><td id="f15" class="fvalue fvalue15 fg3">$f_{15}$</td>
+            </tr>
+        </table>
+        </p>
+    </div>
+    <div class="substep hideAtStart slide2Movers" style="grid-area: 2 / 3 / 3 / 5">
+        <div style="font-size: 32; padding-bottom: 10px;">All $f_1 \rightarrow f_{15}$ with Pauli Twirl</div>
+        <div style="font-size: 42">$\frac{1}{|P^{\otimes 2}|}\sum\limits_{\mathcal{P}\in P^{\otimes 2}}[\mathcal{P}\rho \mathcal{P}^{\dagger}],$</div>
+    </div>
+    <div class="substep hideAtStart slide2Movers" style="grid-area: 3 / 3/  4 / 5">
+<!--         <div style="font-size: 32; padding-bottom: 10px;">$p=\frac{1}{15}\sum\limits_{x=1\ldots 15}f_x$</div>
+         <div style="font-size: 32; padding-bottom: 10px;">Fidelity of channel = $\frac{1+(d-1)p}{d}$</div>
+         <div style="font-size: 32">$\frac{1}{|\mathfrak{C}|}\sum\limits_{\mathcal{C}\in\mathfrak{C}}[\mathcal{C}\rho \mathcal{C}^{\dagger}], \mathfrak{C}=\text{two qubit Clifford group}$</div>
+-->
+        <div style="font-size: 32; padding-bottom: 10px;">Or we can twirl with the single qubit cliffords</div>
+        <div style="font-size: 42; padding-bottom: 10px;">$\frac{1}{|C^{\otimes 2}|}\sum\limits_{\mathcal{C}\in C^{\otimes 2}}[\mathcal{C}\rho \mathcal{C}^{\dagger}]$</div>
+    </div>
+
+    <div id="slide2Move" class="substep hideAtStart" style="grid-area: 4 / 4 / 5 / 5; padding:15px;font-size: 120%">
+        <div id="twirl1"  >$\sum_{I \Sigma}$</div>
+        <div id="twirl2" >$\sum_{\Sigma I}$</div>
+        <div id="twirl3" >$\sum_{\Sigma \Sigma}$</div>
+    </div>
+    <div id="showGroup2" class="substep"></div>
+    <div id="showGroup3" class="substep"></div>
+</div>
+</div>
+
+<div id="twirlSlide" class="step slide" data-rel-x="1200" data-rel-y=100 style="border: red;">
+    <h2>Twirling circuits</h2>
+    <table><tr><td><div></div><img src="images/c1twirl.png"/></div></td>
+    <td><div class="substep hideAtStart" >
+        <img src="images/c2twirl.png" />
+    </div></td></tr></table>
+</div>
+
+<div id="hadamard" class="step slide" data-rel-x="0" data-rel-y=1200 style="border: red;">
+    <img src="images/h_1.png" style="height:350px;width:auto;top:100px;left:50px;position:absolute;"/>
+    <div class="substep hideAtStart" >
+        <img src="images/h_2.png" style="position:absolute; height:350px;width:auto;top:100px;left:850px"/>
+    </div>
+    <div class="substep hideAtStart">
+        <img src="images/h_3.png" style="position:absolute; height:100px;width:auto;top:-20px;left:450px" />
+    </div>
+        
+</div>
+
+
+<div id="logo" class="step slide" data-rel-x="0" data-rel-y=1200 style="border: red;" >
+    <img src="images/equs.png" style="width:100%; background: none;position:relative;left:-100px;top:40px;">
+
+</div>
+<div id="background1" class="step skip back" data-x="1800" data-y="-3000" data-rel-z="-18000" data-scale="2">
+    <img src="images/ibm.png"
+         style="position: absolute; left: 0px; top: 0px; z-index: -1000; width: 1200px;" />
+</div>
+
+
+
+<div id="experimentSlide" class="step slide" data-rel-x=1600 data-rel-y=-750 data-rel-z=-8000>
+<div style="padding-left:100px;padding-top:100px;"><table style="margin-left:auto;margin-right:auto;">
+     <tr>
+        <td><img src="images/exp2.gif"/></td>
+        <td><h2 style="font-size:48px;color:white;">The Experiment</h2></td>
+    </tr>
+</table></div>
+</div>
+
+
+
+<div id="Experiment" class="step slide" data-x="4000" data-rel-y="00" data-rotate="90">
+<h1>The Experiment</h1>
+<div id="allresults">
+<div id="r1" >
+    <span class="texttop" >m=1</span><img src="images/m1results.png" style="width:400px"></img>
+ </div>
+<div id="r2" class="delay appear1" >
+    <span class = "texttop" >m=5</span><img src="images/m2results.png"
+        style="width:400px"></img>
+</div>
+<div id="r3" class="delay appear2" >
+    <span class="texttop">m=10</span><img
+        src="images/m3results.png" style="width:400px"></img>
+</div>
+<div id="r4d" class="delay appear3" >
+    <span class="texttop">   ...</span>
+</div>
+<div id="r4" class="delay appear3" >
+    <span class="texttop">m=110</span>
+    <div></div><img src="images/m4results.png" style="width:400px"></img>
+</div>
+</div>
+<div id="transform" class="substep hideAtStart">
+    <img id="hform" src="images/transform.svg"/>
+    <div id="textH"><p>Hadamard Transform</p></div>
+    <img id="m1" class="data" src="images/m1data.png"/>
+    <img id="m5" class="data" src="images/m5data.png" />
+    <img id="m10" class="data" src="images/m10data.png" />
+    <img id="m110" class="data" src="images/m110data.png" />
+</div>
+<div id="firstGraph" class="substep hideAtStart">
+    <img id="fg"  src="images/firstFit.png" />
+    <img id="oval1" class="ovals" src="images/oval.png" />
+    <img id="oval2" class="ovals" src="images/oval.png" />
+    <img id="oval3" class="ovals" src="images/oval.png" />
+    <img id="oval4" class="ovals" src="images/oval.png" />
+</div>
+
+<div id="showformula" class="substep hideAtStart">
+    <img id="formula" class="ovals" src="images/formula.png" />
+</div>
+</div>
+
+<div id="Experiment2" class="step slide" data-rel-x="2000" data-rel-y="-10000" data-rel-z="1000" data-rotate="90">
+<div>
+    <img id="sqlp" src="images/SingleQubitLogPlot.gif" />
+    </div>
+</div>
+
+
+<div id="results" class="step slide" data-rel-x="1000" data-rel-y="300" data-rotate="90">
+   <h2> SPAM free reconstruction of the entire probability vector.</h2>
+
+</div>
+
+<div id="results2" class="step slide" data-rel-x="000" data-rel-y="1500" data-rotate="180">
+    <h2>Correlations</h2>
+    <h4>$\Sigma=\text{Cov}(X)=\mathbb{E}[(X-\mu)(X-\mu)^T]$</h4>
+    <div class="substep hideAtStart">
+        <h4>$\mu=\mathbb{E}[X], \sigma=\text{diag}(\Sigma)$</h4>
+    </div>
+    <div class='substep hideAtStart'>
+        <h4>Corr($X$)=$\sigma^{-\frac{1}{2}}\Sigma\sigma^{\frac{1}{2}}$</h4>
+        <img style="background:transparent;position:absolute;top:350px;left:500px;width:600px" src="images/hinton.png" />
+
+    </div>
+    
+</div>
+
+<div id="results3" class="step slide" data-rel-x="000" data-rel-y="1500" data-rotate="180">
+        <h2 style="position: absolute;top:-200px;left: 300px;">Correlations</h2>
+        <img id="correlation" class="largeCenter" src="images/correlation1.png"/>
+    
+    <div class='substep hideAtStart'>
+        <img style="background:transparent;position:absolute;top:-180px;left:850px;width:600px" src="images/hinton2.png" />
+    
+    </div>
+    </div>
+
+    <div id="results4" class="step slide" data-rel-x="000" data-rel-y="1500" data-rotate="180">
+            <h2 style="position: absolute;top:-200px;left: 300px;">Factor Graph</h2>
+            <h4 style="position: absolute;top:-150px;left: 250px;">Gibbs Random Field (GRF)</h4>
+            <img id="correlation" class="largeCenter" style="background-color:mintcream; position:absolute;top:200px;left: 20px" src="images/factorgraph2.png"/>
+            <h4 style="position: absolute;top:400px;left: 20px;font-size:30pt;">$\tilde{p}=(q_0|q_1,q_{13})p(q_1,q_2|q_2,q_{12})\dots p(q_6,q_8|q_7)p(q_7)$</h4>
+        
+        </div>
+    
+    <div id="results5" class="step slide" data-rel-x="000" data-rel-y="1500" data-rotate="180">
+                <h2 style="position: absolute;top:-200px;left: 300px;">Factor Graph</h2>
+                <h4 style="position: absolute;top:-150px;left: 250px;">Gibbs Random Field (GRF)</h4>
+                <div style="font-size:24px;">
+                    <p >$\text{JSD}(p,q)=\bigl(\frac{1}{2}D(p||m)+\frac{1}{2}D(q||m)\bigr)^{\frac{1}{2}}$</p>
+                    <p>$D(p||q)=\sum\limits_j\ln\frac{p(j)}{q(j)}m=\frac{1}{2}(p+q)$</p>
+                    <p >JSD(Observed,GRF constrained)=$0.035(4)$</p>
+            </div>
+                <img id="correlation" class="largeCenter" style="background-color:mintcream; width:900px;position:absolute;top:350px;left: -420px;" src="images/factorgraph2.png"/>
+            
+                <img id="correlation" style="background-color:mintcream; width:700px; position: absolute;top:100px;left: 540px"  src="images/correlation2.png"/>
+                
+            </div>
+        
+            <div id="results6" class="step slide" data-rel-x="000" data-rel-y="1500" data-rotate="00">
+                    <h2 style="position: absolute;top:-200px;left: 300px;">Factor Graph</h2>
+                    <h4 style="position: absolute;top:-150px;left: 250px;">Gibbs Random Field (GRF)</h4>
+                    <div style="font-size:24px;">
+                        <p >$\text{JSD}(p,q)=\bigl(\frac{1}{2}D(p||m)+\frac{1}{2}D(q||m)\bigr)^{\frac{1}{2}}$</p>
+                        <p>$D(p||q)=\sum\limits_j\ln\frac{p(j)}{q(j)}m=\frac{1}{2}(p+q)$</p>
+                        <p >JSD(Observed,GRF constrained)=$0.265(1)$</p>
+                </div>
+                <img id="correlation" class="largeCenter" style="background-color:mintcream; width:900px;position:absolute;top:350px;left: -420px;" src="images/factorgraph2.png"/>
+                <img id="correlation" style="background-color:mintcream; width:700px; position: absolute;top:100px;left: 540px"  src="images/correlation3.png"/>
+                    
+                </div>
+    
+            <div id="overviewT" class="step" data-x="000" data-y="000" data-z="1000" data-scale="10" style="opacity: 0.0; pointer-events: none;" data-rotate="0" >
+            </div>
+            
+            <div id="investigate1" class="step slide" data-rel-x="-3000" data-rel-y="1000" data-rel-z="-3000" data-rotate="00">
+                    <h4>Conditional Mutual Information
+                        </h4>
+                        <p>$I(X,Y|Z)$
+                        </p>  
+                    <p>$\sum\limits_{x,y,z}\Bigl(p(x,y,z)\log \left(\frac{p(z)p(x,y,y)}{p(x,y)p(y,z)}\right)\Bigr)$</p>
+            </div>
+           
+            <div id="investigate2" class="step slide" data-rel-x="-4000" data-rel-y="1000" data-rel-z="-500" data-rotate="00">
+                <img style="position:absolute;top:-200px;left:500px;width:800px;" src="images/Device1.png"/>
+                <div class="wrapper">
+                            <iframe id="startd3" class="wrap" src="start.html" ></iframe>
+                </div>
+                <div id="investigate_c1" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c2" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c3" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c4" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c5" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c6" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c7" class='investigate_clicks substep hideAtStart'></div>
+                <div id="investigate_c8" class='investigate_clicks substep hideAtStart'></div>
+            </div>
+               
+            <div id="investigate3" class="step slide" data-rel-x="1500" data-rel-y="200" data-rel-z="400" data-rotate="00">
+                    <div class="wrapper">
+                                <iframe id="secondd3" class="wrap" src="second.html" ></iframe>
+                    </div>
+                    <div id="investigate_s1" class='investigate_clicks substep hideAtStart'></div>
+                    <div id="investigate_s2" class='investigate_clicks substep hideAtStart'></div>
+                </div>
+    
+            
+            <div id="investigate4" class="step slide" data-rel-x="1500" data-rel-y="200" data-rel-z="400" data-rotate="00">
+                    <div class="wrapper">
+                                <iframe id="thirdd3" class="wrap" src="third.html" ></iframe>
+                    </div>
+                    <div id="investigate_t1" class='investigate_clicks substep hideAtStart'></div>
+                    <div id="investigate_t2" class='investigate_clicks substep hideAtStart'></div>
+            </div>
+
+
+            <div id="investigate5" class="step slide" data-rel-x="1500" data-rel-y="200" data-rel-z="400" data-rotate="00">
+                    <div class="wrapper">
+                                <iframe id="fourthd3" class="wrap" src="fourth.html" ></iframe>
+                    </div>
+                    <div id="investigate_f1" class='investigate_clicks substep hideAtStart'></div>
+                    <div id="investigate_f2" class='investigate_clicks substep hideAtStart'></div>
+                </div>
+    
+            <div id="investigate6" class="step slide" data-rel-x="1500" data-rel-y="200" data-rel-z="400" data-rotate="00">
+                    <div class="wrapper">
+                                <iframe id="fifthd3" class="wrap" src="fifth.html" ></iframe>
+                    </div>
+                    <div id="investigate_ft1" class='investigate_clicks substep hideAtStart'></div>
+                    <div id="investigate_ft2" class='investigate_clicks substep hideAtStart'></div>
+                </div>
+           
+            <div id="done" class="step slide" data-rel-x="-1500" data-rel-y="800" data-rel-z="400" data-rotate="00" style="background-color: transparent;">
+                <img style="top:-0; left:-30;position:absolute;width: 1200px;height:auto;" src="images/Colorado_cutdown.png"/>
+                </div>
+             
+            <div id="overview" class="step" data-x="000" data-y="000" data-z="1000" data-scale="10" style="opacity: 0.0; pointer-events: none;" data-rotate="0" >
+
+            </div>
+
+            <div id="overview" class="step" data-x="000" data-y="000" data-z="1000" data-scale="10" data-rotate="0" style="background:transparent;pointer-events: none;" >
+
+                <div class='substep hideAtStart'>
+                    <h2>Efficient Learning of Quantum Noise </h2>
+                    <h3>Harper, Flammia and Wallman</h3>
+                    <h3>ArXiv:   1907.13022  </h3>
+                    
+                </div>
+            </div>
+
+</div>
+
+<div id="impress-toolbar"></div>
+<div id="impress-help"></div>
+
+
+<!-- Extra modules
+ Load highlight.js, mermaid.js and markdown.js from extras.
+ See also src/plugins/extras/extras.js -->
+<!--<script type="text/javascript" src="js/highlight.pack.js"></script>-->
+<script type="text/javascript" src="js/mermaid.min.js"></script>
+<script type="text/javascript" src="js/markdown.js"></script>
+
+<!--
+To make all described above really work, you need to include impress.js in the page.
+You also need to call a `impress().init()` function to initialize impress.js presentation.
+And you should do it in the end of your document.
+-->
+<script type="text/javascript" src="../../js/impress.js"></script>
+<script>impress().init();</script>
+<script>
+var secondInterval = 0;
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        console.log(mutation.attributeName);
+        console.log(mutation.target.id);
+        if (mutation.attributeName === "class") {
+            var attributeValue = $(mutation.target).prop(mutation.attributeName);
+            console.log(attributeValue)
+            if (attributeValue.includes("present")) {
+                if (mutation.target.id == "projection") {
+                    console.log("In project");
+                    $(".flickering").addClass("flicker");
+                } 
+            }
+            if (attributeValue.includes("substep-visible")) {
+                if (mutation.target.id == "moveDetail") {
+                    $("#detail").addClass("reposition");
+                    $(".repositionable").addClass("reposition");
+                    $("#bar").addClass("reposition");
+                    $("#bar2").addClass("reposition");
+                    $("#bar3").addClass("reposition");
+                    $("#scale").addClass("reposition");
+                } else if (mutation.target.id == "zoomlearn") {
+                    $("#learn").addClass("project");
+                } else if (mutation.target.id == "waggleDelta") {
+                    $(".coh").removeClass("showHighlight");
+                    $(".uni").removeClass("showHighlight");
+                    // adding class removeIt, adds the waggle and changes from delta to 0.
+                    // currently this is not reversible!
+                    $(".coh").addClass("removeIt");
+                    $(".uni").addClass("removeIt");
+
+                    $(".np").bind("animationend",function() {
+                        $(this).text("0");
+                        $("#tp").addClass("substep-invisible");
+                    //$(this).css("font-size","10px");
+                    });
+
+                } else if (mutation.target.id == "transform") {
+                    console.log("transform changed")
+                    if (attributeValue.includes("substep-visible")) {
+                        $(".data").addClass("inposition");
+                        $("#allresults").addClass("inposition");
+                        $("#hform").addClass("inposition");
+                        $("#r1").addClass("inposition");
+                        $("#r2").removeClass("appear1");
+                        $("#r2").addClass("inposition");
+                        $("#r3").removeClass("appear2");
+                        $("#r3").addClass("inposition");
+                        $("#r4d").addClass("inposition");
+                        $("#r4").addClass("inposition");
+                        $("#r4").removeClass("appear3");
+                        $("#r4d").removeClass("appear3");
+                        
+                    }
+                } else if (mutation.target.id == "firstGraph") {
+                    if (attributeValue.includes("substep-visible")) {
+                        $("#hform").addClass("hideit");
+                        $("#textH").addClass("hideit");
+                        $(".data").addClass("adjust");
+                        
+
+                    }
+                } else if (mutation.target.id == "cnoise") {
+                  console.log("Cnoise changed")
+                 if (attributeValue.includes("substep-visible")) {
+                     $(".coh").addClass("showHighlight");
+                 }
+                } else if (mutation.target.id == "unital") {
+                    if (attributeValue.includes("substep-visible")) {
+                        $(".uni").addClass("showHighlight");
+                    }
+                } else if (mutation.target.id == "pauliNoise") {
+                    $(".fvalue").addClass("showHighlight");
+
+                } 
+                else if (mutation.target.id == "investigate_c1") {
+                    $("#startd3")[0].contentWindow.transition(1);
+                }
+                else if (mutation.target.id == "investigate_c2") {
+                    $("#startd3")[0].contentWindow.transition(2);
+                }
+                else if (mutation.target.id == "investigate_c3") {
+                    $("#startd3")[0].contentWindow.transition(3);
+                }
+                else if (mutation.target.id == "investigate_c4") {
+                    $("#startd3")[0].contentWindow.transition(4);
+                }
+                else if (mutation.target.id == "investigate_c5") {
+                    $("#startd3")[0].contentWindow.transition(5);
+                }
+                else if (mutation.target.id == "investigate_c6") {
+                    $("#startd3")[0].contentWindow.transition(6);
+                }
+                else if (mutation.target.id == "investigate_c7") {
+                    $("#startd3")[0].contentWindow.transition(7);
+                }
+                else if (mutation.target.id == "investigate_c8") {
+                    $("#startd3")[0].contentWindow.transition(8);
+                }
+                else if (mutation.target.id == "investigate_s1") {
+                    $("#secondd3")[0].contentWindow.transition()
+                    secondInterval = setInterval($("#secondd3")[0].contentWindow.transition,2000);
+                }
+                else if (mutation.target.id == "investigate_s2") {
+                    clearInterval(secondInterval);
+                }
+                else if (mutation.target.id == "investigate_t1") {
+                    $("#thirdd3")[0].contentWindow.transition()
+                    secondInterval = setInterval($("#thirdd3")[0].contentWindow.transition,1500);
+                }
+                else if (mutation.target.id == "investigate_t2") {
+                    clearInterval(secondInterval);
+                }
+                else if (mutation.target.id == "investigate_f1") {
+                    $("#fourthd3")[0].contentWindow.transition()
+                    secondInterval = setInterval($("#fourthd3")[0].contentWindow.transition,1500);
+                }
+                else if (mutation.target.id == "investigate_f2") {
+                    clearInterval(secondInterval);
+                }
+                else if (mutation.target.id == "investigate_ft1") {
+                    $("#fifthd3")[0].contentWindow.transition()
+                    secondInterval = setInterval($("#fifthd3")[0].contentWindow.transition,1500);
+                }
+                else if (mutation.target.id == "investigate_ft2") {
+                    clearInterval(secondInterval);
+                }
+                else if (mutation.target.id == "nextSlideSoon") {
+                    $(".ofv").addClass("moveOut");
+
+                    setTimeout(function () {
+                        console.log("Should move on now")
+                        $(".ofv").addClass("hidden");
+                        impress().next();
+                    }, delayInMilliseconds);
+                } else if (mutation.target.id == "slide2Move") {
+                    $(".slide2Movers").addClass("moveIt");
+                    svg = document.getElementById("pTableSVG");
+                    NS = svg.getAttribute('xmlns');
+                    createTriangleMarker()
+                    var pt1 = calcOffset("f1",1)
+                    var pt2 = calcOffset("f2", 1)
+                    var pt3 = calcOffset("f3", 1)
+
+                    pt = calcOffset("f11",1)
+                    /*c = document.createElementNS(NS,"circle");
+                    c.setAttributeNS(null,'cx',pt.x);
+                    c.setAttributeNS(null,'cy',pt.y);
+                    c.setAttributeNS(null,'r',10);
+                    svg.appendChild(c);*/
+
+                    pt4 = calcOffset("twirl1",0)
+                    drawCurvedLine(pt1.x,pt1.y,pt4.x-20,pt4.y,"lightblue",0.2)
+                    drawCurvedLine(pt2.x, pt2.y, pt4.x - 20, pt4.y, "lightblue", 0.2)
+                    drawCurvedLine(pt3.x, pt3.y, pt4.x - 20, pt4.y, "lightblue", 0.2)
+                    $(".fg1").css("background-color","lightblue");
+                } else if (mutation.target.id == "showGroup2") {
+                    svg = document.getElementById("pTableSVG");
+                    NS = svg.getAttribute('xmlns');
+                    createTriangleMarker()
+                    var pt1 = calcOffset("f4", 1)
+                    var pt2 = calcOffset("f8", 1)
+                    var pt3 = calcOffset("f12", 1)
+
+
+                    pt4 = calcOffset("twirl2", 0)
+                    drawCurvedLine(pt1.x, pt1.y, pt4.x - 20, pt4.y, "orangered", 0.2)
+                    drawCurvedLine(pt2.x, pt2.y, pt4.x - 20, pt4.y, "orangered", 0.2)
+                    drawCurvedLine(pt3.x, pt3.y, pt4.x - 20, pt4.y, "orangered", 0.2)
+                    $(".fg2").css("background-color", "orangered");
+                } else if (mutation.target.id == "showGroup3") {
+                    svg = document.getElementById("pTableSVG");
+                    NS = svg.getAttribute('xmlns');
+                    createTriangleMarker()
+                    var pt1 = calcOffset("f5", 1)
+                    var pt2 = calcOffset("f6", 1)
+                    var pt3 = calcOffset("f7", 1)
+                    var pt4 = calcOffset("f9", 1)
+                    var pt5 = calcOffset("f10", 1)
+                    var pt6 = calcOffset("f11", 1)
+                    var pt7 = calcOffset("f13", 1)
+                    var pt8 = calcOffset("f14", 1)
+                    var pt9 = calcOffset("f15", 1)
+
+                    ptt = calcOffset("twirl3", 0)
+                    drawCurvedLine(pt1.x, pt1.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt2.x, pt2.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt3.x, pt3.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt4.x, pt4.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt5.x, pt5.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt6.x, pt6.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt7.x, pt7.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt8.x, pt8.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+                    drawCurvedLine(pt9.x, pt9.y, ptt.x - 20, ptt.y, "dimgrey", 0.2)
+
+                    $(".fg3").css("background-color", "dimgrey");
+                }
+                console.log("class changed to ",attributeValue)
+            } else {
+                if (mutation.target.id == "cnoise") {
+                  console.log("Cnoise changed")
+                  $(".coh").removeClass("showHighlight");
+
+                } else if (mutation.target.id == "unital") {
+                    $(".uni").removeClass("showHighlight");
+                } else if (mutation.target.id == "pauliNoise") {
+                    $(".fvalue fvalue").removeClass("showHighlight");
+                }else if (mutation.target.id == "slide2Move") {
+                    $(".slide2Movers").removeClass("moveIt");
+                    $("#pTableSVG").empty();
+                    markerInitialized=0;
+                    $(".fg1").css("background-color", "rgba(114, 101, 163, 0.2)")
+                    $(".fg2").css("background-color", "rgba(114, 101, 163, 0.2)")
+                    $(".fg3").css("background-color", "rgba(114, 101, 163, 0.2)")
+                } else if (mutation.target.id == "nextSlideSoon") {
+                    $(".ofv").removeClass("moveOut");
+                    $(".ofv").removeClass("hidden");
+
+                }
+
+            }
+        }
+    });
+});
+
+var delayInMilliseconds = 1000; //1 second
+
+
+
+var rec1 = 0;
+var svg = 0;
+var NS=0;
+function calcOffset(forO,right) {
+    var x = document.getElementById(forO)
+    rec = x.getBoundingClientRect();
+
+    if (rec1 == 0) {
+        svg = document.getElementById("pTableSVG");
+        rec1 = svg.getBoundingClientRect();
+    }
+    var pt = svg.createSVGPoint();
+    if (right==1) {
+        pt.x = rec.right-rec1.x;
+    } else {
+        pt.x = rec.left-rec1.x;
+    }
+    pt.y = rec.top-rec1.y+rec.height/2;
+    return pt;
+
+}
+
+function drawCurvedLine(x1,y1,x2,y2,color,tension){
+    var shape  = document.createElementNS(NS,"path");
+    var delta = (x2-x1)*tension;
+    var hx1=x1+delta;
+    var hy1=y1;
+    var hx2=x2-delta;
+    var hy2=y2;
+    var path = "M "  + x1 + " " + y1 +
+           " C " + hx1 + " " + hy1
+                 + " "  + hx2 + " " + hy2
+           + " " + x2 + " " + y2;
+    shape.setAttributeNS(null, "d", path);
+    shape.setAttributeNS(null, "fill", "none");
+    shape.setAttributeNS(null, "stroke", color);
+    shape.setAttributeNS(null,"marker-end","url(#triangle)");
+    svg.appendChild(shape);
+}
+
+markerInitialized = false;
+
+function createTriangleMarker() {
+
+    if (markerInitialized)
+        return;
+    console.log("creating marker")
+    markerInitialized = true;
+    var defs = document.createElementNS('http://www.w3.org/2000/svg',
+        'defs');
+    svg.appendChild(defs);
+
+    var marker = document.createElementNS('http://www.w3.org/2000/svg',
+                'marker');
+    marker.setAttribute('id', 'triangle');
+    marker.setAttribute('viewBox', '0 0 10 10');
+    marker.setAttribute('refX', '0');
+    marker.setAttribute('refY', '5');
+    marker.setAttribute('markerUnits', 'strokeWidth');
+    marker.setAttribute('markerWidth', '20');
+    marker.setAttribute('markerHeight', '16');
+    marker.setAttribute('orient', 'auto');
+    marker.setAttribute('stroke','lightblue')
+    var path = document.createElementNS('http://www.w3.org/2000/svg',
+        'path');
+    marker.appendChild(path);
+    path.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+    defs.appendChild(marker);
+    console.log("done")
+}
+
+observer.observe($("#waggleDelta")[0],{
+    attributes: true
+});
+observer.observe($("#cnoise")[0], {
+        attributes: true
+    });
+observer.observe($("#unital")[0], {
+        attributes: true
+    });
+observer.observe($("#pauliNoise")[0], {
+        attributes: true
+    });
+observer.observe($("#slide2Move")[0], {
+        attributes: true
+    })
+observer.observe($("#nextSlideSoon")[0], {
+        attributes: true
+    });
+observer.observe($("#showGroup2")[0], {
+        attributes: true
+});
+observer.observe($("#showGroup3")[0], {
+        attributes: true
+});
+observer.observe($("#moveDetail")[0], {
+        attributes: true
+});
+observer.observe($("#projection")[0], {
+        attributes: true
+});
+observer.observe($("#transform")[0], {
+        attributes: true
+    });
+observer.observe($("#zoomlearn")[0], {
+        attributes: true
+});
+observer.observe($("#firstGraph")[0], {
+        attributes: true
+    });
+    
+$(".investigate_clicks").each(function (index,item) {
+    observer.observe(item, {
+        attributes: true
+    });
+});
+
+</script>
+</body>
+</html>

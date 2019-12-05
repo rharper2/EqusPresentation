@@ -1,0 +1,1187 @@
+/***** Fonts *****/
+
+/* @import url(http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic|Cutive+Mono); */
+@import url(fonts.css);
+
+
+/***** Fallback message *****/
+
+.fallback-message {
+    font-family: sans-serif;
+    line-height: 1.3;
+
+    width: 780px;
+    padding: 10px 10px 0;
+    margin: 20px auto;
+
+    border: 1px solid #E4C652;
+    border-radius: 10px;
+    background: #EEDC94;
+}
+
+.fallback-message p {
+    margin-bottom: 10px;
+}
+
+.impress-supported .fallback-message {
+    display: none;
+}
+
+/***** Per slide hacks *****/
+
+
+
+/***** Presentation *****/
+
+body {
+    font-family: 'Roboto', 'San Francisco', helvetica, arial, sans-serif;
+    min-height: 740px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#000), color-stop(50%, #1a2028), to(#293845));
+    background: linear-gradient(to bottom, #000 0%, #1a2028 50%, #293845 100%);  
+}
+
+
+.wrapper {
+    width: 110%;
+    height: 110%;
+    padding: 25px 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+}
+
+.wrap {
+    width: 1290px;
+    height: 850px;
+    position: absolute;
+    top: 100px;
+    left: 50px;
+     border: none;
+    margin: none;
+    padding: 0;
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+
+p.substep {
+    opacity: 0;
+}
+
+p.substep.substep-visible {
+    opacity: 1;
+}
+
+div.substep {
+    opacity: 0;
+}
+
+div.substep.substep-visible {
+    opacity: 1;
+    transition: all 1s ease-in-out;
+    
+}
+
+#background1 {
+    background-color: transparent;
+}
+
+
+.step {
+    position: relative;
+    width: 1100px;
+    height: 700px;
+    padding: 40px 60px;
+    margin: 20px auto;
+    background: darkslategrey;
+    box-sizing:         border-box;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 2px 2px rgba(0, 0, 0, .1);
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 48px;
+    letter-spacing: -1px;
+    line-height: 1.5;
+}
+
+.intro {
+    background: rgb(4, 53, 70);
+    opacity: 0.0;
+}
+
+
+
+.intro2 {
+    background: rgb(4, 53, 70);
+    transform: translateZ(-1000);
+    z-index: 1;
+    opacity: 0.0;
+}
+
+.noise {
+    width: 1200px;
+    height: 900px;
+    padding: 20px 40px;
+}
+
+/*
+    Make inactive steps a little bit transparent.
+*/
+
+.impress-enabled .step {
+    margin: 0;
+    opacity: 0.3;
+    transition:         opacity 1s;
+}
+
+#background1 {
+    opacity: 1;
+}
+
+.impress-enabled .step.active { opacity: 1 }
+
+.impress-enabled .step.active.intro { opacity: 0.8 }
+.impress-enabled .step.active.intro2 { opacity: 0.8;z-index: -1000; }
+
+
+.notes {
+    display: none;
+}
+
+h1, 
+h2, 
+h3 {
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    text-align: center;
+}
+
+p {
+    margin: 0.7em;
+}
+
+li {
+    margin: 0.2em;    
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0 0.1em;
+    text-shadow: -1px 1px 2px rgba(100,100,100,0.9);
+    border-radius: 0.2em;
+
+    transition:         0.5s;
+}
+
+a:hover,
+a:focus {
+    text-shadow: -1px 1px 2px rgba(100,100,100,0.5);
+}
+
+blockquote {
+    font-family: 'PT Serif';
+    font-style: italic;
+    font-weight: 400;    
+}
+
+em {
+    text-shadow: 0 2px 2px rgba(0, 0, 0, .3);    
+}
+
+strong {
+    text-shadow: -1px 1px 2px rgba(100,100,100,0.5);
+}
+
+q {
+    font-family: 'PT Serif';
+    font-style: italic;
+    font-weight: 400;    
+    text-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+}
+
+strike {
+    opacity: 0.7;
+}
+
+.intro p img {
+    
+    width: 600px;
+    margin-left:   140px;
+    margin-right:   0px;
+    margin-top:    20px;
+    margin-bottom: 20px;    
+}
+
+img {
+    width: 300px;
+    margin-left:   40px;
+    margin-right:   0px;
+    margin-top:    20px;
+    margin-bottom: 20px;    
+}
+
+img + em {
+  text-align: center;
+  font-size: 1.8rem;
+  color: light-grey;
+}
+
+/* 
+    Specific styles for: .title steps
+*/
+
+.title h1,
+.title h2,
+.title h3 {
+    position: absolute;
+    left: 45px; /* slide width is 900px, so this is like a 5% margin on both sides */
+    width: 90%;
+    text-align: center;    
+}
+.title h1 { top: 50px; }
+.title h2 { top: 400px; }
+.title h3 { top: 500px; }
+
+
+
+/***** Plugins ******/
+
+.impress-enabled div#impress-toolbar {
+    position: fixed;
+    right: 1px;
+    bottom: 1px;
+    opacity: 0.6;
+}
+.impress-enabled div#impress-toolbar > span {
+    margin-right: 10px;
+}
+body.impress-mouse-timeout div#impress-toolbar {
+    display: none;
+}
+body.impress-mouse-timeout {
+    cursor: none;
+}
+/* Help popup plugin */
+.impress-enabled #impress-help {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    color: #EEEEEE;
+    font-size: 80%;
+    position: fixed;
+    left: 2em;
+    bottom: 2em;
+    width: 24em;
+    border-radius: 1em;
+    padding: 1em;
+    text-align: center;
+    z-index: 100;
+    font-family: Verdana, Arial, Sans;
+}
+.impress-enabled #impress-help td {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+
+/* Specific CSS for the noiseTable */
+
+
+.noiseTable {
+    color: rgb(241, 232, 232);
+    text-align: center;
+    vertical-align: center;
+    font-size: 24pt;
+    padding-left: 5px;
+    border: 1px solid whitesmoke;
+    border-collapse: collapse;
+}
+
+.noiseTable th, td  {
+   padding-left: 10px;
+   padding-right: 10px;
+   padding-top: 2px;
+   padding-bottom: 2px;
+   width: 43px;
+}
+
+.noiseTable td:first-child  {
+    border-right: 2px solid white;
+}
+
+.noiseTable th  {
+    border-bottom: 2px solid white;
+}
+
+.noiseTable td.coh {
+    background: rgb(255,0,0,0.0);
+    background-clip:  padding-box;
+    
+    transition-property: opacity, background;
+    transition-duration: 2s;
+
+}
+
+.noiseTable td.fvalue {
+    background: rgba(114, 101, 163, 0.0);
+    background-clip:  padding-box;
+    
+    transition-property: opacity, background;
+    transition-duration: 2s;
+
+}
+
+.noiseTable td.coh.showHighlight {
+    background: lightsteelblue;
+    
+}
+
+.noiseTable td.uni {
+    padding-right: 5px;
+    transform: translate(3px,0px)  scaleX(0.9); 
+    
+    transition-property: opacity, background;
+    transition-duration: 2s;
+
+}
+
+.noiseTable td.uni.showHighlight {
+   
+    background: rgb(255,0,0,0.5);
+    background-clip:  padding-box;
+    
+}
+
+.noiseTable td.fvalue.showHighlight {
+   
+    background: rgba(114, 101, 163, 0.5);
+    background-clip:  padding-box;
+    
+}
+
+.hidden {
+    opacity: 0;
+}
+
+td.fvalue1.moveOut
+{
+    transform: translate(2000px,0px);
+    transition: transform 2s;    
+}
+td.fvalue2.moveOut
+{
+    transform: translate(1950px,0px);
+    transition: transform 2s;
+}
+td.fvalue3.moveOut
+{
+    transform: translate(1900px,0px);
+    transition: transform 2s;
+}
+td.fvalue4.moveOut
+{
+    transform: translate(1850px,0px);
+    transition: transform 2s;
+}
+td.fvalue5.moveOut
+{
+    transform: translate(1800px,0px);
+    transition: transform 2s;
+}
+td.fvalue6.moveOut
+{
+    transform: translate(1750px,0px);
+    transition: transform 2s;
+}
+td.fvalue7.moveOut
+{
+    transform: translate(1700px,0px);
+    transition: transform 2s;
+}
+td.fvalue8.moveOut
+{
+    transform: translate(1650px,0px);
+    transition: transform 2s;
+}
+td.fvalue9.moveOut
+{
+    transform: translate(1600px,0px);
+    transition: transform 2s;
+}
+td.fvalue10.moveOut
+{
+    transform: translate(1550px,0px);
+    transition: transform 2s;
+}
+td.fvalue11.moveOut
+{
+    transform: translate(1500px,0px);
+    transition: transform 2s;
+}
+td.fvalue12.moveOut
+{
+    transform: translate(1450px,0px);
+    transition: transform 2s;
+}
+td.fvalue13.moveOut
+{
+    transform: translate(1400px,0px);
+   
+    transition: transform 2s;
+}
+td.fvalue14.moveOut
+{
+    transform: translate(1350px,0px);
+    transition: transform 2s;
+}
+td.fvalue15.moveOut
+{
+    transform: translate(1300px,0px);
+    transition: transform 2s;
+}
+
+#testTransition.past p table.noiseTable tbody tr td.fvalue7.showHighlight
+{
+    transform: translate(1000px,0px);
+    transition: transform 2s;
+}
+#testTransition.past p table.noiseTable tbody tr td.fvalue8.showHighlight
+{
+    transform: translate(1000px,0px);
+    transition: transform 2s;
+}
+#testTransition.past p table.noiseTable tbody tr td.fvalue9.showHighlight
+{
+    transform: translate(1000px,0px);
+    transition: transform 2s;
+}
+#testTransition.past p table.noiseTable tbody tr td.fvalue10.showHighlight
+{
+    transform: translate(1000px,0px);
+    transition: transform 2s;
+}
+
+img {
+    background-color: whitesmoke;
+}
+
+.texttop {
+    vertical-align: top;
+    font-size:24pt;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+  padding: 5px;
+}
+
+.noiseTable td.rr {
+    border-top-right-radius: 10px;
+    
+}
+
+.noiseTable td.tlr {
+    border-top-left-radius: 10px;
+    
+}
+.noiseTable td.brr {
+    border-bottom-right-radius: 10px;
+    
+}
+.noiseTable td.blr {
+    border-bottom-left-radius: 10px;
+}
+
+
+#cnoise {
+    opacity: 0.0;
+    transition-property: opacity;
+    transition-duration: 2s;
+}
+
+#coherentLabel {
+    position: absolute;
+    left: 1150px;
+    top: 300px;
+    border: 1px solid white;
+    background: paleturquoise;
+    color: black;
+    width: 250px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#unital {
+    opacity: 0;
+    transition-property: opacity, background;
+    transition-duration: 2s;
+    
+}
+
+#Experiment .delay {
+    opacity: 0;
+    transition-property: opacity, background;
+    transition-duration:0.5s;
+
+    
+}
+
+#Experiment.active .appear1 {
+    transition-delay: 1.5s;
+    opacity: 1;
+    
+}
+
+#Experiment.active .appear2 {
+    transition-delay: 2s;
+    opacity: 1;
+    
+}
+
+#Experiment.active .appear3 {
+    transition-delay: 3s;
+    opacity: 1;
+    
+}
+
+#unitalLabel {
+    position: absolute;
+    left: -250px;
+    top: 150px;
+    border: 1px solid white;
+    background: rgb(255,0,0,0.7);
+    color: rgb(255,255,255,0.7);
+    width: 250px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#tp {
+    position: absolute;
+    top: 105px;
+    left: 190px;
+    width: 935px;
+    height: 35px;
+    background: none;
+    border: 2px solid white;
+    border-radius: 15px;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 2s;
+
+}
+
+#tpLabel {
+    position: relative;
+    left: 950px;
+    top: -50px;
+    border: 1px solid white;
+    background: rgb(47,79,79,0.0);
+    color: white;
+    width: 250px;
+    border-radius: 15px;
+    text-align: center;
+    
+}
+
+div#tp.substep.substep-visible > p#tpLabel {
+    background: rgb(47,79,79,1.0);
+}
+
+#cnoise.substep-visible {
+    opacity: 0.8;
+}
+
+#unital.substep-visible {
+    opacity: 0.8;
+}
+
+#tp.substep-visible {
+    opacity: 1;
+}
+
+#tp.substep-visible.substep-invisible {
+    opacity: 0;
+}
+
+.np.removeIt {
+    animation: waggle 1s linear 2;
+    animation-delay: 1.2s;
+}
+
+@keyframes waggle {
+    0%, 7% {
+      transform: rotateZ(0);
+    }
+    15% {
+      transform: rotateZ(-15deg);
+    }
+    20% {
+      transform: rotateZ(10deg);
+      transform: scale(1.2);
+    }
+    25% {
+      transform: rotateZ(-10deg);
+      /* transform: scale(1.5); */
+    }
+    30% {
+      transform: rotateZ(6deg);
+    }
+    35% {
+      transform: rotateZ(-4deg);
+      transform: scale(1.0);
+    }
+    40%, 100% {
+      transform: rotateZ(0);
+    }
+}
+
+/* Specific css for the pualiTable */
+.pauliTable {
+    color: rgb(241, 232, 232);
+    text-align: center;
+    vertical-align: center;
+    font-size: 24pt;
+    padding-left: 5px;
+    border: 1px solid whitesmoke;
+    border-collapse: collapse;
+}
+
+.pauliTable th, td  {
+   padding-left: 10px;
+   padding-right: 10px;
+   padding-top: 2px;
+   padding-bottom: 2px;
+   width: 43px;}
+
+.pauliTable {
+    color: rgb(241, 232, 232);
+    text-align: center;
+    vertical-align: center;
+    font-size: 24pt;
+    padding-left: 5px;
+    border: 1px solid whitesmoke;
+    border-collapse: collapse;
+    grid-row: 1 / 4;
+}
+
+.pauliTable th, td  {
+   padding-left: 10px;
+   padding-right: 10px;
+   padding-top: 2px;
+   padding-bottom: 2px;
+   width: 43px;
+}
+   
+#pauliNoiseSlide  p > table.pauliTable tbody tr td.fvalue
+   {
+       transform: translate(-1000px,0px);
+       background: rgba(114, 101, 163, 0.5);
+       background-clip:  padding-box;
+       transition: background transform 2s;
+   }
+
+#pauliNoiseSlide.present  p > table.pauliTable tbody tr td.fvalue
+   {
+       transform: translate(00px,0px);
+       background: rgba(114, 101, 163, 0.2);
+       transition: transform 2s;
+   }
+
+#pTableSVG {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+    
+   }
+
+.pauliNoiseGrid {
+    display:grid;
+    grid-template-columns: 200px 100px 300px 200px;
+    grid-template-rows: 100px 200px 200px 200px 200px;
+}
+
+.substep.hideAtStart {
+    opacity: 0;
+    transition-property: opacity transform;
+    transition-duration: 2s;
+}
+
+.substep.hideAtStart.substep-visible {
+    opacity: 1.0;
+}
+
+.slide2Movers.moveIt {
+    
+    transform: translate(250px,-150px) scale(0.6);
+}
+
+.slide2Movers.moveIt + div.slide2Movers {
+    transform: translate(250px,-220px) scale(0.6);
+}
+
+#slide2Move >  div {
+    padding: 5px;
+}
+
+/*
+   Disable mouse clicks / focus for body
+*/
+.impress-enabled                          { pointer-events: none }
+.impress-enabled #impress                 { pointer-events: auto }
+.impress-enabled #impress-toolbar         { pointer-events: auto }
+.impress-enabled #impress-console-button  { pointer-events: auto }
+
+.column2d {
+    float: left;
+}
+.left2d {
+    width: 25%;
+  }
+.middle2d{
+    width:20%;
+}
+.right2d {
+    width:55%;
+}
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+#bar.reposition {
+    transform: translate(-300px,0px);
+    transition: tranform 0.5s;
+}
+
+#detail.reposition {
+    transform: translate(-100px,0px) scale(0.5) rotateZ(-90deg);
+    transition: transform 1s;
+}
+
+#bar.reposition {
+    transform: translate(-300px,0px) scaleX(0.6);
+    transition: transform 1s;
+    z-index: 120;
+
+}
+
+#bar2.reposition {
+    transform: translate(60px,200px) scaleY(0.5) scaleX(1.5) rotateZ(90deg);
+    transition: transform 1s;
+    z-index: 110;
+}
+
+#bar3.reposition {
+    transform: translate(-260px,150px) rotateX(75deg) scaleX(0.6) rotateZ(10deg);
+    transition: transform 1s;
+    z-index: 100;
+}
+
+#scale.reposition {
+    transform: translate(600px,100px) scale(0.5);
+    transition: transform 1s;
+
+}
+#pt.reposition {
+    transform: translate3d(-300px,44px,0px) scale(0.8);
+    transition: transform 1s;   
+}
+
+#gst.reposition {
+    transform: translate3d(-330px,-40px,00px) scale(0.68);
+    transition: transform 1s;   
+}
+
+#bar2.reposition {
+    transform: opacity(1.0) 
+}
+
+#cs.reposition {
+    transform: translate3d(-200px,-40px,00px) scale(0.6);
+    transition: transform 1s;   
+}
+#trb.reposition {
+    transform: translate3d(-240px,-80px,00px) scale(0.7);
+    transition: transform 1s;   
+}
+#rb.reposition {
+    transform: translate3d(300px,80px,00px) scale(1.1);
+    transition: transform 1s;   
+}
+#cb.reposition {
+    transform: translate3d(160px,-60px,00px) scale(0.9);
+    transition: transform 1s;   
+}
+#xb.reposition {
+    transform: translate3d(170px,-50px,00px) scale(0.8);
+    transition: transform 1s;   
+}
+#drb.reposition {
+    transform: translate3d(300px,-40px,00px) scale(0.9);
+    transition: transform 1s;   
+}
+
+#effort.repositionable {
+    opacity: 0.0;
+}
+
+#effort.reposition{
+    
+    transform: translate3d(120px,20px,00px) scaleY(0.5)  rotateZ(100deg);
+    opacity: 1;
+    transition-property: opacity transform;
+    transition-duration: 1s;
+
+}
+
+#ware1.flicker {
+    transform: translate3d(0px,0px,-60px);
+    animation-delay: .5s;
+    transition: transform 1s;
+    
+}
+#ware2.flicker {
+    transform: translate3d(0px,0px,-60px);
+    animation-delay: 1s;
+    transition: transform 2s;
+    
+}
+#ware3.flicker {
+    transform: translate3d(0px,0px,-60px);
+    animation-delay: 1.5s;
+    transition: transform 3s;
+    
+}
+#ware4.flicker {
+    transform: translate3d(0px,0px,-60px);
+    animation-delay: 2s;
+    transition: transform 4s;
+    
+}
+
+#logo {
+    background: none;
+}
+
+#overlap {
+    font-size: 12px;
+}
+
+.substep-visible #learn.project {
+    background: slategray;
+    transform: translate3d(0px,0px,100px);
+    transition: transform 2s;
+
+}
+
+#learn {
+    perspective: 300px;
+    font-size: 12px;
+    position: absolute; 
+    left: 260px; 
+    top: 90px; 
+    z-index: -1;
+}
+
+#overlap {
+    position: absolute; 
+    left: 280px; 
+    top: 130px; 
+    z-index: -1;
+}
+
+.substep-visible #overlap {
+    font-size: 32px;
+    transition: font-size 1s;
+}
+
+.substep-visible #learn {
+    font-size: 36px;
+    transition: font-size 1s;
+}
+
+.data {
+    position: absolute;
+    left: -100;
+    top: 0;
+    background-color: transparent;
+    opacity: 0;
+    
+}
+
+#hform {
+    position: absolute;
+    left: 400;
+    top: 200;
+    width: 200px;
+    height: auto;
+    background-color: transparent;
+    
+}
+#m1.inposition {
+    opacity: 1;
+    transform: translate(20px,180px) scale(0.7);
+    z-index: 12;
+    transition-property: opacity, transform;
+    transition-delay: 0.5s;
+    transition-duration: 1.5s;
+
+}
+
+#m5.inposition {
+    opacity: 1;
+    z-index: 10;
+    transform: translate(45px,160px) scale(0.7);
+    transition-delay: 1s;
+    transition-property: opacity, transform;
+    transition-duration: 1.5s;
+
+
+}
+
+#m10.inposition {
+    opacity: 1;
+    transform: translate(70px,140px) scale(0.7);
+    z-index: 8;
+    transition-property: opacity, transform;
+    transition-delay: 1.5s;
+    transition-duration: 1.5s;
+
+}
+
+#m110.inposition {
+    opacity: 1;
+    transform: translate(140px,50px) scale(0.65);
+    z-index: 6;
+    transition-property: opacity, transform;
+    transition-delay: 2s;
+    transition-duration: 1.5s;
+
+}
+
+#allresults {
+    position: absolute;
+    left: 400;
+    top: 250;
+
+}
+
+#r1.inposition {
+    opacity:0;
+    transform: translate(1000px,0px);
+    transition-property: opacity, transform;
+    transition-delay: 0.5s;
+    transition-duration: 1.5s;
+
+}
+
+
+#r2.inposition {
+    opacity:0;
+    transform: translate(1000px,0px);
+    transition-property: opacity, transform;
+    transition-delay: 1s;
+    transition-duration: 1.5s;
+
+
+}
+
+#r3.inposition {
+    opacity:0;
+    transform: translate(1000px,0px);
+    transition-property: opacity, transform;
+    transition-delay: 1.5s;
+    transition-duration: 1.5s;
+
+}
+
+#r4d.inposition
+{
+    opacity:0;
+    transform: translate(1000px,0px);
+    transition-property: opacity, transform;
+    transition-delay: 2s;
+    transition-duration: 1.5s;
+}
+
+#r4.inposition 
+{
+    opacity:0;
+    transform: translate(1000px,0px);
+    transition-property: opacity, transform;
+    transition-delay: 2s;
+    transition-duration: 1.5s;
+}
+#r1 {
+    position: absolute; 
+    left: 180px; 
+    top: 150px;
+    z-index:10;
+}
+
+#r2 {
+    position: absolute; 
+    left: 220px; 
+    top:100px;
+    opacity: 0;
+    z-index:6;
+}
+
+#r3 {
+    position: absolute; 
+    left: 260px; 
+    top:50px;
+    z-index:5;
+    opacity: 0;
+}
+
+#r4d {
+    position: absolute; 
+    left: 320px; 
+    top:10px;
+    z-index:3;
+}
+
+#r4 {
+    position: absolute; 
+    left: 320px; 
+    top:-10px;
+    z-index:3;
+}
+
+#textH {
+    position: absolute;
+    left: 350;
+    top: 350;
+    font-size: 24pt
+   
+}
+
+.hideit {
+    visibility: hidden;
+}
+
+#fg {
+    position: absolute;
+    left: 200;
+    top: 300;
+    width:800px;
+    height: auto;
+
+}
+
+#m1.inposition.adjust {
+    transform: translate(15px,250px) scale(0.65);
+    transition-delay: 0s;
+    
+}
+
+#m5.inposition.adjust {
+    transform: translate(10px,220px) scale(0.7);
+    transition-delay: 0s;
+    
+}
+
+#m10.inposition.adjust {
+    transform: translate(0px,190px) scale(0.7);
+    transition-delay: 0s;
+    
+}
+
+#m110.inposition.adjust {
+    transform: translate(15px,60px) scale(0.55);
+    transition-delay: 0s;
+    
+}
+
+#sqlp {
+    background-color: transparent;
+    width:1000px;
+    height:auto;
+    padding-left:10px;
+    padding-top:100px;
+    position: absolute;
+    left: 10px;
+}
+
+
+#oval1 {
+    position: absolute;
+    left: 30px;
+    top: 455px;
+    z-index: 15;
+}
+
+.ovals {
+   width: 100px;
+    height: auto;
+    background-color: transparent;
+    z-index:15;
+}
+
+
+
+#oval2 {
+    position: absolute;
+    top: 370px;
+    left: 25px;
+    z-index:11;
+}
+
+
+
+#oval3 {
+    position: absolute;
+    top: 310px;
+    left:30px;
+    z-index:9;
+}
+
+#oval4 {
+    position: absolute;
+    top: 260px;
+    left: 30px;
+    z-index:7;
+}
+
+#formula {
+   width: 300px;
+    height: auto;
+    background-color: transparent;
+    z-index:10;
+    position: absolute;
+    top: 170px;
+    left: 390px;
+    opacity: 1;
+    transition-delay: 2s;
+    transition-property: opacity;
+    transition-duration: 1s;
+}
+
+.largecenter {
+    background-color: transparent;
+    width:85%;
+    height: auto;
+    position: absolute;
+    top: -40px;
+    left: 40px;
+}
+
+.active #sqlp {
+    transform: scale(1.6);    
+    transition-property: transform;
+    transition-delay: 1s;
+    transition-duration: 2s;
+}

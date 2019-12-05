@@ -1,0 +1,521 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Playing with D3.js</title>
+  <script src="js/d3.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  
+</head>
+<body>
+  <script type="text/javascript">
+    // script here
+    var rowConverter = function(d) {
+      return {
+          Qubit: d.Qubit,
+          Value: parseFloat(d.Value),
+          RGB1: parseFloat(d.RGB1),
+          RGB2: parseFloat(d.RGB2),
+          RGB3: parseFloat(d.RGB3),
+          Active: parseInt(d.Active)
+      };
+    }
+
+    // used to track state of display.
+    var FMState = 0;
+
+       var _transitions = [
+    
+    {
+      transitionForward: () => transition(1),
+      transitionBackward: () => transition(0),
+      index: 1
+    },
+    {
+      transitionForward: () => transition(2),
+      transitionBackward: () => transition(1),
+      index: 2
+    },
+    {
+      transitionForward: () => transition(3),
+      transitionBackward: () => transition(2),
+      index: 3
+    },
+    {
+      transitionForward: () => transition(4),
+      transitionBackward: () => transition(3),
+      index: 4
+    },
+    {
+      transitionForward: () => transition(5),
+      transitionBackward: () => transition(4),
+      index: 5
+    },
+    {
+      transitionForward: () => transition(6),
+      transitionBackward: () => transition(5),
+      index: 6
+    },
+    {
+      transitionForward: () => transition(7),
+      transitionBackward: () => transition(6),
+      index: 7
+    },
+    {
+      transitionForward: () => transition(8),
+      transitionBackward: () => transition(7),
+      index: 8
+    },
+    {
+      transitionForward: () => transition(9),
+      transitionBackward: () => transition(8),
+      index: 9
+    },
+    {
+      transitionForward: () => transition(10),
+      transitionBackward: () => transition(9),
+      index: 10
+    },
+    {
+      transitionForward: () => transition(11),
+      transitionBackward: () => transition(9),
+      index: 11
+    },
+    {
+      transitionForward: () => transition(12),
+      transitionBackward: () => transition(10),
+      index: 12
+    },
+    {
+      transitionForward: () => transition(13),
+      transitionBackward: () => transition(11),
+      index: 13
+    },
+    {
+      transitionForward: () => transition(14),
+      transitionBackward: () => transition(2),
+      index: 14
+    },
+    {
+      transitionForward: () => transition(15),
+      transitionBackward: () => transition(13),
+      index: 15
+    },
+        {
+      transitionForward: () => transition(16),
+      transitionBackward: () => transition(14),
+      index: 16
+    },
+    {
+      transitionForward: () => transition(17),
+      transitionBackward: () => transition(15),
+      index: 17
+    },
+    {
+      transitionForward: () => transition(18),
+      transitionBackward: () => transition(16),
+      index: 18
+    },
+    {
+      transitionBackward: () => transition(17),
+      index: 19
+    }
+
+    ]
+
+    timings = [239,179,261,266,300,300,348,348,300,261,217,300,652,1043,286,261,348,348]
+
+    var rowConverter = function(d) {
+      return {
+          Qubit: d.Qubit,
+          Value: parseFloat(d.Value),
+          RGB1: parseFloat(d.RGB1),
+          RGB2: parseFloat(d.RGB2),
+          RGB3: parseFloat(d.RGB3),
+          Active: parseInt(d.Active)
+      };
+    }
+
+    var FMState = 0;
+
+    //var commentry = ["Enforced 500ns wait between \"rounds\"  Q0","Enforced 500ns wait between \"rounds\"  Q2","Enforced 500ns wait between \"rounds\"  Q4","Enforced 500ns wait between \"rounds\"  Q6","Enforced 500ns wait between \"rounds\"  Q8","Enforced 500ns wait between \"rounds\"  Average"]
+
+    var GroupsOfData = 5; // This will be determined by csv file.
+
+//  Some standard constants
+    var numberOfQubits = 14;
+    
+
+    var dataset;
+    var FullDataset;
+    
+    var dataToDisplay = 0;
+    var w = 1200;
+    var h = 300;
+    var barPadding = 10;
+    var plotPadding = 15;
+    var xPadding = 30;
+    var scale = d3.scaleLinear();
+    var xscales = []
+    for (let i=0;i<14;i++) {
+      xscales.push(d3.scaleBand());
+    }
+    var yAxis =  d3.axisLeft().scale(scale).ticks(5);
+    var graphDist =400;
+    var mx = 0.2
+    var leaveAlone = "q1"
+    scale.domain([0,0.03]);
+    scale.range([h-2*plotPadding,plotPadding]);
+
+// ******************
+// MOVEALONG
+// ******************
+
+    var movealong = function(q,scaleToUse,del) {
+      scale.domain([0,0.06])
+      
+      d3.select(".yaxis").call(yAxis);
+      
+      d3.selectAll("rect."+q).data(dataset).transition().duration(1000).delay(function(d,i) {return (i*del)})
+      .attr("y",function(d) {
+        var offset = 0;
+        if (parseInt(q.slice(1)) > 6){
+          offset=h
+        } 
+        return offset+scale(d.Value);
+      })
+      .attr("height",function(d) {
+        return h - scale(d.Value)-2*plotPadding;
+      }).attr("x", function(d,i) {
+            if (parseInt(q.slice(1)) > 6) {
+              return scaleToUse(i)-xscales[5](13);
+            }
+            return scaleToUse(i)
+      }).attr("width", function(d,i) {
+            return scaleToUse.bandwidth()
+          })
+      .attr("fill",function(d) {
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          });
+
+
+      let doneOne = false;
+
+      // *** WATCH OUT THE LOGIC HERE IS THAT THE PAIRS ARE ENCODED WITH THE HIGHER QUBIT BEING 0
+     if (q != leaveAlone) {
+       d3.select("text.mainQ."+q).style("fill","black")
+     }
+     var bq1,bq2;
+     for (let i = 0;i<numberOfQubits;i++){
+        if (dataset[i].Active == 1) {
+          console.log(i+","+q)
+          bq1 = d3.select("text.mainQ."+q).style("fill","blue")
+          bq2 = d3.select("text.mainQ.q"+i).style("fill","blue")
+          leaveAlone = "q"+i
+          doneOne = true
+        }
+      }
+
+      if (doneOne && scaleToUse.bandwidth() < 10 && dataToDisplay > 0) {
+        bq1.transition().duration(400).style("font-size","28px").transition().duration(400).style("font-size","24px")
+        bq2.transition().duration(400).style("font-size","28px").transition().duration(400).style("font-size","24px")
+      }
+
+
+        /*
+      d3.selectAll("text.mainQ").data(dataset).style("fill",function(d,i) {
+          
+          if (d.Active == 1) {
+            console.log(q + ": " + d.Active);
+            doneOne = true;
+            return "red"
+
+          }
+          //return "red"
+        })*/
+      /*if (doneOne) {
+        svg.selectAll("text.mainQ."+q).style("fill","blue")
+      } else {
+        svg.selectAll("text.mainQ."+q).style("fill","black")
+      }*/
+      
+
+
+      
+    };
+
+    var shrunkPart = 150;
+    var shrunkGap = 50;
+    var initialSequence = 6;
+    var compressed = 0;
+
+
+// *********** CLICK ***********************
+   function transition() {
+      var toDelay = 50;
+      
+      //d3.selectAll("#textCommentry").text(commentry[val])
+     
+      if (dataToDisplay > GroupsOfData-1) {
+        dataToDisplay = 0;
+      }
+      for (let i=0;i<initialSequence;i++) {
+        dataset = FullDataset.slice(dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData),
+                                    dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData+1));
+        //console.log("Q"+i+(dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData))+":"+(dataToDisplay*numberOfQubits+numberOfQubits*(i*GroupsOfData+1)));
+        movealong("q"+(i),xscales[i],toDelay);
+
+      }
+      
+      dataToDisplay += 1;
+      return true;
+    }
+    
+
+// *******************************************
+    var plotBars = function(dataset,scaleToUse,qbit) {
+      mx = d3.max(dataset,function(d) {
+        return d.Value;
+      })
+      //console.log(mx);
+      //console.log(dataset)
+        
+      let barBranch = svg.append("g")
+                         .attr("class","barandtext")
+                         .classed(qbit,true)
+
+      var barsMain = barBranch.selectAll("g."+qbit)
+          .data(dataset)
+          .enter()
+          .append("g")
+          .attr("class",function(d) { return "QB"+qbit})
+
+
+
+      d3.selectAll("g.QB"+qbit)
+          .data(dataset)
+          .append("rect")
+          .attr("class", function(d) {return "Target"+d.Qubit})
+          .classed(qbit,true)
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("width",function(d,i) {
+            return scaleToUse.bandwidth();
+          })
+          .attr("height",function(d) {
+              return h - scale(d.Value)-2*plotPadding;
+          })
+          .attr("stroke-width",1)
+          .attr("stroke","rgb(0,0,0)")
+          .attr("fill",function(d) {
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          }).on('mouseover',(d) => {
+              console.log(qbit + " and " + d.Qubit)
+              console.log("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1))
+              d3.select("rect.TARGETQ"+d.Qubit.slice(1)+".q"+qbit.slice(1)).style("fill","blue")
+              d3.select("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1)).style("fill","blue").transition().delay(10).attr("width",2*scaleToUse.bandwidth()).style("fill","yellow").transition().delay(10).style("fill","blue").attr("width",scaleToUse.bandwidth())
+
+            })
+          .on('mouseout',(d) => {
+              console.log(qbit + " and " + d.Qubit)
+              console.log("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1))
+              d3.select("rect.TARGETQ"+d.Qubit.slice(1)+".q"+qbit.slice(1)).interrupt().attr("width",scaleToUse.bandwidth()).style("fill",function(d) {
+                      return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+                })
+              d3.select("rect.TARGETQ"+qbit.slice(1)+".q"+d.Qubit.slice(1)).attr("width",scaleToUse.bandwidth()).interrupt()
+                .style("fill",function(d) {
+                      return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+                })
+          })
+
+       d3.selectAll("g.QB"+qbit)
+          .data(dataset)
+          .append("text")
+          .attr("class",qbit)
+          
+
+      barBranch.append("text")
+        .attr("class","mainQ")
+        .classed(qbit,true)
+        .text("Qubit: " + qbit.slice(1))
+        .attr("x",function(d,i) {
+           var qno = parseInt(qbit.slice(1))
+           console.log(qno)
+           if (qno>6) {
+            console.log(14-qno)
+              return scaleToUse.bandwidth()*1.5+ xscales[13-qno](13)+55
+            } else {
+              return scaleToUse.bandwidth()+scaleToUse(0)+scaleToUse.bandwidth()/2;
+            }
+          }).attr("y",function() {
+              if (qbit.slice(1) > 6) {
+                return 2*h;
+              } else {
+                return h
+              }})
+        .attr("fill","black")
+    }
+
+    
+
+   var plotQubit = function(qbit) {
+
+
+      
+      ellipseBranch.append("ellipse")
+        .attr("class","ULQ")
+        .attr("cx",xscales[qbit](4)-4)
+        .attr("cy",h-60)
+        .attr("rx","120")
+        .attr("ry","120")
+        .attr("fill","rgb(80,80,80")
+      ellipseBranch.append("ellipse")
+        .attr("class","LQ")
+        .attr("cx",xscales[qbit](4)-4)
+        .attr("cy",h-60)
+        .attr("rx","120")
+        .attr("ry","120")
+        .style("fill","url(#radial-gradient)")
+
+    } 
+
+
+    var svg = d3.select("body")
+                .append("svg")
+                .attr("width",w+40)
+                .attr("height",2*h+50);
+
+
+    svg.append("rect")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("fill", "honeydew")
+      .attr("rx",10);
+
+    svg.append("text").text("Single Resonator (Difference from Local) - Wait Difference (Difference from Local)").attr("x",w-1100).attr("y",40).style("font-size","28px").attr("id","textCommentry").style("fill","black")
+    
+ 
+
+    var radialGradient = svg.append("defs")
+          .append("radialGradient")
+          .attr("id", "radial-gradient");
+
+    radialGradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "darkgrey");
+
+    radialGradient.append("stop")
+      .attr("offset", "200%")
+      .attr("stop-color", "rgb(30,30,80)");
+
+    radialGradient.attr("cx","70%").attr("cy","20%")
+
+    var ellipseBranch
+
+    d3.csv("for3dSRDiffDiff.csv", function(d) {
+      return rowConverter(d);
+    }).then(function(data) {
+        FullDataset  = data;
+        GroupsOfData = FullDataset.length / (14*14)
+        console.log("There are : " + (GroupsOfData) + " groups of data")
+        //console.log(FullDataset);
+        dataset = data.slice(0,14);
+        dataToDisplay = 1;
+        //console.log(dataset);
+       
+
+        dataToDisplay=0;
+        compressed = 1;
+       
+        for (let j=0;j<numberOfQubits;j++) {
+            let i = j;
+            if (j > 6) {
+                i = 20 - j;
+            }
+            xscales[i].domain(d3.range(dataset.length))
+              .range([shrunkPart*j+shrunkGap,shrunkPart*(j+1)])
+              .round(true)
+            . paddingInner(0.05);
+        }
+        
+        initialSequence=numberOfQubits;
+        
+         
+          for (let i=0;i<numberOfQubits;i++) {
+                dataset = data.slice(numberOfQubits*(GroupsOfData*i),numberOfQubits*(GroupsOfData*i+1));
+                plotBars(dataset,xscales[i],"q"+(i))
+      
+          }
+
+          svg.selectAll("text.mainQ")
+           .data([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]).transition().duration(1000)
+           .attr("x",function(d,i) {
+                  if (i > 6) {
+                      return xscales[i](0)-xscales[5](13);
+                  } else {
+                  return xscales[i](0)
+                  }})
+         
+        svg.append("g")
+        .attr("class","yaxis")
+        .attr("transform","translate(" + 50 + ",0)")
+        .attr("fill","black")
+
+        labels = svg.append("g")
+        scale.domain([0,0.06])
+      
+         d3.select(".yaxis").call(yAxis);
+      
+
+      // Remvoe delay and transition if you don't want cascade.
+
+      for (let q = 0;q<14;q++) {
+           d3.selectAll("rect.q"+q).data(dataset).transition().duration(1000).delay(function(d,i) {return (i*50)})
+              .attr("y",function(d) {
+           var offset = 0;
+            if (q > 6){
+              offset=h
+          } 
+        return offset+scale(d.Value);
+      })
+      .attr("height",function(d) {
+        return h - scale(d.Value)-2*plotPadding;
+      }).attr("x", function(d,i) {
+            if (q > 6) {
+              return xscales[q](i)-xscales[5](13);
+            }
+            return xscales[q](i)
+      }).attr("width", function(d,i) {
+            return xscales[q].bandwidth()
+          })
+      .attr("fill",function(d) {
+            return "rgb("+(d.RGB1*255)+","+(d.RGB2*255)+","+(d.RGB3*255)+")";
+          });
+      }
+
+      transition(0);
+        //.call(yAxis);
+
+        
+          
+    });
+
+   // var imgs = svg.selectAll("image").data([0]).enter()
+   //             .append("svg:image")
+   //             .attr("xlink:href","images/Q0.png")
+   //             .attr("x","-50")
+   //             .attr("y",0)
+   //             .attr("width","700")
+   //             .attr("height","700");
+
+
+
+
+    
+
+  </script>
+
+</body>
+</html> 
